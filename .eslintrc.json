@@ -17,16 +17,14 @@
         "react"
     ],
     "ignorePatterns": [
-        "index.js",
-        "bulid/",
-        "aspnetcore-https.js",
-        "aspnetcore-react.js"
+        "bulid/"
     ],
     "rules": {
         "quotes": ["warn", "double"],
         "semi": ["warn", "always"],
         "jsx-quotes": ["warn", "prefer-double"],
         "no-multi-spaces": ["warn", { "ignoreEOLComments": false }],
+        "no-unused-vars": "warn",
         "react/jsx-tag-spacing": ["warn", {
             "closingSlash": "never",
             "beforeSelfClosing": "always",
