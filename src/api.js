@@ -14,7 +14,7 @@ export const checkAuth = () => {
     api.get("account/check-auth")
         .then(response => {
             setAccountInfo(response.data);
-        });
+        }).catch(defaultErrorHandler);
 };
 
 export const signIn = (data, onSuccess, onError, onFinally) => {
@@ -37,9 +37,41 @@ export const signOut = () => {
                 store.dispatch(logout());
                 sessionStorage.removeItem("currentUser");
             }
-        });
+        }).catch(defaultErrorHandler);
 };
 
+export const getReviewsPage = (page, sortTarget, sortType, onSuccess) => {
+    api.get(`reviews/get-page/${page}/${sortTarget}/${sortType}`)
+        .then(response => {
+            if (response.status === 200) {
+                onSuccess(response.data);
+            }
+        }).catch(defaultErrorHandler);
+};
+
+export const getReviewPagesCount = (onSuccess) => {
+    api.get("reviews/get-pages-count")
+        .then(response => {
+            if (response.status === 200) {
+                onSuccess(response.data);
+            }
+        }).catch(defaultErrorHandler);
+};
+
+export const getLeisureInfo = (leisureId, onSuccess) => {
+    api.get(`leisures/get-info/${leisureId}`)
+        .then(response => {
+            if (response.status === 200) {
+                console.log(response.data)
+                onSuccess(response.data);
+            }
+        }).catch(defaultErrorHandler);
+};
+
+
+const defaultErrorHandler = () => {
+    console.error("Server connection error");
+};
 
 const setAccountInfo = (responseData) => {
     if (responseData.isAuthorized) {
