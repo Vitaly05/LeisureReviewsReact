@@ -51,41 +51,88 @@ function Header() {
                         </ListItemIcon>
                     </ListItemButton>
                 </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton onClick={() => navigate("/sign-in")}>
-                        <ListItemText>
-                            Sign In
-                        </ListItemText>
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton>
-                        <ListItemText>
-                            Sign Up
-                        </ListItemText>
-                    </ListItemButton>
-                </ListItem>
+                {isAuthenticated ?
+                <>
+                    <ListItem>
+                        <Box sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: 1
+                        }}
+                        >
+                            <PersonIcon />
+                            <Typography textTransform="none">
+                                {currentUser.userName}
+                            </Typography>
+                        </Box>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <AccountBoxIcon />
+                            </ListItemIcon>
+                            <ListItemText>
+                                Profile
+                            </ListItemText>
+                        </ListItemButton>
+                    </ListItem>
+                    <Divider />
+                    <ListItem
+                        disablePadding  
+                        variant="contained"
+                        color="error"
+                        onClick={signOut}
+                    >
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <LogoutIcon />
+                            </ListItemIcon>
+                            <ListItemText>
+                                Sign Out
+                            </ListItemText>
+                        </ListItemButton>
+                    </ListItem>
+                </>
+                :
+                <>
+                    <ListItem disablePadding>
+                        <ListItemButton onClick={() => navigate("/sign-in")}>
+                            <ListItemText>
+                                Sign In
+                            </ListItemText>
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton onClick={() => navigate("/sign-up")}>
+                            <ListItemText>
+                                Sign Up
+                            </ListItemText>
+                        </ListItemButton>
+                    </ListItem>
+                </>
+                }
                 <Divider />
-                <ListItem disablePadding>
-                    <ListItemButton>
-                        <ListItemIcon>
-                            <SearchIcon />
-                        </ListItemIcon>
-                        <ListItemText>
-                            Search
-                        </ListItemText>
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton>
-                        <ListItemIcon>
-                            <ModeNightIcon />
-                        </ListItemIcon>
-                        <ListItemText>
-                            Dark mode
-                        </ListItemText>
-                    </ListItemButton>
-                </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <SearchIcon />
+                            </ListItemIcon>
+                            <ListItemText>
+                                Search
+                            </ListItemText>
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <ModeNightIcon />
+                            </ListItemIcon>
+                            <ListItemText>
+                                Dark mode
+                            </ListItemText>
+                        </ListItemButton>
+                    </ListItem>
             </List>
         );
     };
@@ -176,7 +223,12 @@ function Header() {
                                 >
                                     Sign In
                                 </Button>
-                                <Button color="inherit">Sign Up</Button>
+                                <Button 
+                                    color="inherit"
+                                    onClick={() => navigate("/sign-up")}
+                                >
+                                    Sign Up
+                                </Button>
                             </Box>
                         }
                     </Box>

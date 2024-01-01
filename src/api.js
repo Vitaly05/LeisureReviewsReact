@@ -30,6 +30,19 @@ export const signIn = (data, onSuccess, onError, onFinally) => {
     }).catch(onError).finally(onFinally);
 };
 
+export const signUp = (data, onSuccess, onError, onFinally) => {
+    api.post("account/sign-up", {
+        username: data.username,
+        password: data.password,
+        rememberMe: data.rememberMe
+    }).then(response => {
+        if (response.status === 200) {
+            setAccountInfo(response.data);
+            onSuccess();
+        }
+    }).catch(onError).finally(onFinally);
+};
+
 export const signOut = () => {
     api.post("account/sign-out")
         .then(response => {

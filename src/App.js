@@ -1,7 +1,8 @@
 import { Route, Routes } from "react-router-dom";
+import { Box } from "@mui/material";
 import Home from "./pages/Home";
 import SignIn from "./pages/Sign In";
-import { Box } from "@mui/material";
+import SignUp from "./pages/Sign Up";
 
 function App() {
     return (
@@ -9,6 +10,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/sign-in" element={<SignIn />} />
+                <Route path="/sign-up" element={<SignUp />} />
             </Routes>
         </Box>
     );
