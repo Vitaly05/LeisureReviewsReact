@@ -17,6 +17,14 @@ export const checkAuth = () => {
         }).catch(defaultErrorHandler);
 };
 
+export const checkAccessToCreateReview = (username, onSuccess, onError) => {
+    api.get(`account/check-create-review-access?username=${username}`).then(response => {
+        if (response.status === 200) {
+            onSuccess();
+        }
+    }).catch(onError);
+};
+
 export const signIn = (data, onSuccess, onError, onFinally) => {
     api.post("account/sign-in", {
         username: data.username,
@@ -62,8 +70,26 @@ export const getReviewsPage = (page, sortTarget, sortType, onSuccess) => {
         }).catch(defaultErrorHandler);
 };
 
+export const getUserReviews = (username, page, sortTarget, sortType, onSuccess) => {
+    api.get(`reviews/get-user-page/${username}/${page}/${sortTarget}/${sortType}`)
+        .then(response => {
+            if (response.status === 200) {
+                onSuccess(response.data);
+            }
+        }).catch(defaultErrorHandler);
+};
+
 export const getReviewPagesCount = (onSuccess) => {
     api.get("reviews/get-pages-count")
+        .then(response => {
+            if (response.status === 200) {
+                onSuccess(response.data);
+            }
+        }).catch(defaultErrorHandler);
+};
+
+export const getUserReviewPagesCount = (username, onSuccess) => {
+    api.get(`reviews/get-user-pages-count?username=${username}`)
         .then(response => {
             if (response.status === 200) {
                 onSuccess(response.data);
@@ -75,7 +101,15 @@ export const getLeisureInfo = (leisureId, onSuccess) => {
     api.get(`leisures/get-info/${leisureId}`)
         .then(response => {
             if (response.status === 200) {
-                console.log(response.data)
+                onSuccess(response.data);
+            }
+        }).catch(defaultErrorHandler);
+};
+
+export const getUserInfo = (username, onSuccess) => {
+    api.get(`users/get-info?username=${username}`)
+        .then(response => {
+            if (response.status === 200) {
                 onSuccess(response.data);
             }
         }).catch(defaultErrorHandler);
@@ -90,5 +124,8 @@ const setAccountInfo = (responseData) => {
     if (responseData.isAuthorized) {
         store.dispatch(login());
     }
-    sessionStorage.setItem("currentUser", JSON.stringify(responseData.currentUser));
+    const currentUser = responseData.currentUser;
+    sessionStorage.setItem("currentUser", JSON.stringify({
+        username: currentUser.userName
+    }));
 };

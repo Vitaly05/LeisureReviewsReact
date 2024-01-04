@@ -35,6 +35,7 @@ function Header() {
         setUserDropdownOpen(false);
     };
 
+
     useEffect(() => {
         if (isAuthenticated) {
             setCurrentUser(JSON.parse(sessionStorage.getItem("currentUser")));
@@ -63,12 +64,15 @@ function Header() {
                         >
                             <PersonIcon />
                             <Typography textTransform="none">
-                                {currentUser.userName}
+                                {currentUser.username}
                             </Typography>
                         </Box>
                     </ListItem>
                     <ListItem disablePadding>
-                        <ListItemButton>
+                        <ListItemButton 
+                            href={`/user/${currentUser.username}`} 
+                            component="a"
+                        >
                             <ListItemIcon>
                                 <AccountBoxIcon />
                             </ListItemIcon>
@@ -141,7 +145,16 @@ function Header() {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography 
+                        variant="h6"
+                        component="a"
+                        href="/"
+                        sx={{
+                            flexGrow: 1,
+                            color: "inherit",
+                            textDecoration: "none",
+                        }}
+                    >
                         Leisure Reviews
                     </Typography>
                     <Box
@@ -184,7 +197,7 @@ function Header() {
                                 >
                                     <PersonIcon />
                                     <Typography textTransform="none">
-                                        {currentUser.userName}
+                                        {currentUser.username}
                                     </Typography>
                                     <ArrowDropDownIcon />
                                 </Box>
@@ -196,7 +209,10 @@ function Header() {
                                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                             >
-                                <MenuItem>
+                                <MenuItem 
+                                    href={`/user/${currentUser.username}`} 
+                                    component="a"
+                                >
                                     <ListItemIcon>
                                         <AccountBoxIcon />
                                     </ListItemIcon>

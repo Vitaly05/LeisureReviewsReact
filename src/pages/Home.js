@@ -1,19 +1,23 @@
 import { Box, Button, Container, Pagination } from "@mui/material";
 import Header from "../components/Header";
-import ReviewCard from "../components/ReviewCard";
 import { useEffect, useState } from "react";
 import { getReviewPagesCount, getReviewsPage } from "../api";
 import { SortTarget, SortType } from "../data/SortParams";
+import ReviewCardsList from "../components/ReviewCardsList";
 
 function Home() {
     const [pagesCount, setPagesCount] = useState(0);
     const [sortTarget, setSortTarget] = useState(SortTarget.date);
     const [page, setPage] = useState(1);
+
     const [reviewCards, setReviewCards] = useState([]);
+    const [isReviewCardsLoading, setIsReviewCardsLoading] = useState(true);
 
     useEffect(() => {
+        setIsReviewCardsLoading(true);
         getReviewsPage(page, sortTarget, SortType.descending, (cards) => {
             setReviewCards(cards);
+            setIsReviewCardsLoading(false);
         });
     }, [page, sortTarget]);
 
@@ -84,20 +88,13 @@ function Home() {
                         </Button>
                     </Box>
                 </Box>
-                <Box
+                <ReviewCardsList
+                    isLoading={isReviewCardsLoading}
+                    reviewCards={reviewCards}
                     sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: 4,
                         mt: 4
                     }}
-                >
-                    {reviewCards.map((card, i) =>
-                        <ReviewCard reviewCardModel={card} key={i} />
-                    )}
-                </Box>
+                />
                 <Box sx={{
                     display: "flex",
                     justifyContent: "center",
