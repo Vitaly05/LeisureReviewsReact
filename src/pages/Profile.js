@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import { Box, Button, Container, Pagination, Paper, Skeleton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -11,6 +11,8 @@ import { checkAccessToCreateReview, getUserInfo, getUserReviewPagesCount, getUse
 import ReviewCardsList from "../components/ReviewCardsList";
 
 function Profile() {
+    const navigate = useNavigate();
+
     const { username } = useParams();
 
     const [canCreateReview, setCanCreateReview] = useState(false);
@@ -123,6 +125,7 @@ function Profile() {
                 {canCreateReview &&
                     <Button
                         variant="contained"
+                        onClick={() => navigate("/review/new")}
                     >
                         Create New
                     </Button>

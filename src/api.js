@@ -1,6 +1,7 @@
 import axios from "axios";
 import { login, logout } from "./redux/slices/authSlice";
 import store from "./redux/store";
+import { setAuthorId } from "./redux/slices/reviewEditorSlice";
 
 // eslint-disable-next-line no-undef
 const apiUrl = process.env.NODE_ENV === "development" ? "/api" : `${process.env.REACT_APP_API_HOST}/api`;
@@ -14,6 +15,7 @@ export const checkAuth = () => {
     api.get("account/check-auth")
         .then(response => {
             setAccountInfo(response.data);
+            store.dispatch(setAuthorId(response.data.currentUser.id));
         }).catch(defaultErrorHandler);
 };
 
@@ -113,6 +115,17 @@ export const getUserInfo = (username, onSuccess) => {
                 onSuccess(response.data);
             }
         }).catch(defaultErrorHandler);
+};
+
+export const saveReview = (authorId, reviewInfo, onSuccess, onError) => {
+    api.post("/reviews/save-review", {
+        ...reviewInfo,
+        authorId: authorId
+    }).then(response => {
+        if (response.status === 200) {
+            onSuccess();
+        }
+    }).catch(onError);
 };
 
 

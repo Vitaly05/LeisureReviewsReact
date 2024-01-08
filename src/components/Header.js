@@ -7,6 +7,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import AddIcon from "@mui/icons-material/Add";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "../api";
@@ -81,6 +82,16 @@ function Header() {
                             </ListItemText>
                         </ListItemButton>
                     </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton onClick={() => navigate("/review/new")}>
+                            <ListItemIcon>
+                                <AddIcon />
+                            </ListItemIcon>
+                            <ListItemText>
+                                Create Review
+                            </ListItemText>
+                        </ListItemButton>
+                    </ListItem>
                     <Divider />
                     <ListItem
                         disablePadding  
@@ -150,7 +161,7 @@ function Header() {
                         component="a"
                         href="/"
                         sx={{
-                            flexGrow: 1,
+                            mr: "auto",
                             color: "inherit",
                             textDecoration: "none",
                         }}
@@ -217,6 +228,14 @@ function Header() {
                                         <AccountBoxIcon />
                                     </ListItemIcon>
                                     Profile
+                                </MenuItem>
+                                <MenuItem onClick={() => navigate("/review/new")}>
+                                    <ListItemIcon>
+                                        <AddIcon />
+                                    </ListItemIcon>
+                                    <ListItemText>
+                                        Create Review
+                                    </ListItemText>
                                 </MenuItem>
                                 <Divider />
                                 <MenuItem

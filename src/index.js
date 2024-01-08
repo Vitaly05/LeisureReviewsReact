@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
+import "@mdxeditor/editor/style.css";
 import { checkAuth } from "./api";
 import { Provider } from "react-redux";
 import store from "./redux/store";

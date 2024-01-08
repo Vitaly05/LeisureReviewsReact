@@ -125,7 +125,7 @@ function SignIn() {
                             Sign In
                         </LoadingButton>
                         {errorMessage.length > 0 &&
-                            <FormHelperText sx={{color: "red"}}>
+                            <FormHelperText error>
                                 {errorMessage}
                             </FormHelperText>
                         }

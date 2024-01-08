@@ -1,4 +1,4 @@
-import { Box, Button, Card, Chip, CircularProgress, LinearProgress, Typography } from "@mui/material";
+import { Box, Button, Card, Chip, LinearProgress, Typography } from "@mui/material";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import IconWithText from "./IconWithText";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
@@ -6,6 +6,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { grey } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { getLeisureInfo } from "../api";
+import { LeisureGroupsNames } from "../data/LeisureGroups";
 
 
 const backgroundColor = grey[50];
@@ -51,7 +52,7 @@ function ReviewCard({ reviewCardModel }) {
                 }}
             >
                 <Chip 
-                    label={reviewCardModel.group} 
+                    label={LeisureGroupsNames[reviewCardModel.group]} 
                     color="secondary"
                     size="small"
                     sx={{
