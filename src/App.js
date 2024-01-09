@@ -15,7 +15,8 @@ function App() {
                 <Route path="/sign-up" element={<SignUp />} />
                 <Route path="/user/:username" element={<Profile />} />
                 <Route path="/review">
-                    <Route path="new" element={<EditReview />} />
+                    <Route path="new/:authorId" element={<EditReview />} />
+                    <Route path="edit/:reviewId" element={<EditReview />} />
                 </Route>
             </Routes>
         </Box>

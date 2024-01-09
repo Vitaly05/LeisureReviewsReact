@@ -36,6 +36,10 @@ function Header() {
         setUserDropdownOpen(false);
     };
 
+    const handleCreateReviewButton = () => {
+        window.location.href = `/review/new/${currentUser.id}`;
+    };
+
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -83,7 +87,7 @@ function Header() {
                         </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
-                        <ListItemButton onClick={() => navigate("/review/new")}>
+                        <ListItemButton onClick={handleCreateReviewButton}>
                             <ListItemIcon>
                                 <AddIcon />
                             </ListItemIcon>
@@ -229,7 +233,7 @@ function Header() {
                                     </ListItemIcon>
                                     Profile
                                 </MenuItem>
-                                <MenuItem onClick={() => navigate("/review/new")}>
+                                <MenuItem onClick={handleCreateReviewButton}>
                                     <ListItemIcon>
                                         <AddIcon />
                                     </ListItemIcon>

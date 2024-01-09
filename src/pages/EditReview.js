@@ -1,13 +1,13 @@
 import { LoadingButton, TabContext, TabList, TabPanel } from "@mui/lab";
 import Header from "../components/Header";
-import { Alert, Box, Button, Container, Dialog, DialogActions, DialogTitle, FormControl, FormHelperText, InputLabel, MenuItem, Select, Snackbar, Tab, TextField } from "@mui/material";
-import { useState } from "react";
+import { Alert, Box, Button, CircularProgress, Container, Dialog, DialogActions, DialogTitle, FormControl, FormHelperText, InputLabel, MenuItem, Select, Snackbar, Tab, TextField } from "@mui/material";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { LeisureGroups } from "../data/LeisureGroups";
 import { TagsInput } from "react-tag-input-component";
 import { AdmonitionDirectiveDescriptor, BlockTypeSelect, BoldItalicUnderlineToggles, CreateLink, InsertAdmonition, InsertThematicBreak, ListsToggle, MDXEditor, Separator, UndoRedo, directivesPlugin, headingsPlugin, linkDialogPlugin, linkPlugin, listsPlugin, markdownShortcutPlugin, quotePlugin, thematicBreakPlugin, toolbarPlugin } from "@mdxeditor/editor";
-import { useSelector } from "react-redux";
-import { saveReview } from "../api";
+import { getLeisureInfo, getReview, saveReview } from "../api";
+import { useParams } from "react-router-dom";
 
 const validationSchema = Yup.object({
     title: Yup.string().required().max(255),
@@ -18,16 +18,19 @@ const validationSchema = Yup.object({
 });
 
 function EditReview() {
-    const authorId = useSelector(state => state.reviewEditor.authorId);
+    const { authorId, reviewId } = useParams();
 
     const [tabValue, setTabValue] = useState("main");
     const handleTabChange = (e, val) => {
         setTabValue(val);
     };
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [reviewInfoIsLoading, setReviewInfoIsLoading] = useState(false);
+    const [saveButtonIsLoading, setSaveButtonIsLoading] = useState(false);
 
     const [reviewInfo, setReviewInfo] = useState({
+        id: "",
+        authorId: authorId,
         title: "",
         leisureName: "",
         tagsNames: [],
@@ -47,15 +50,18 @@ function EditReview() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(reviewInfo)
         try {
             await validationSchema.validate(reviewInfo, {
                 abortEarly: false
             });
             setErrors({});
 
-            setIsLoading(true);
-            saveReview(authorId, reviewInfo, showSuccessDialog, () => setErrorAlertOpen(true));
-            setIsLoading(false);
+            setSaveButtonIsLoading(true);
+            saveReview(reviewInfo, () => {
+                setSaveButtonIsLoading(false);
+                showSuccessDialog();
+            }, () => setErrorAlertOpen(true));
         } catch (err) {
             if (err.name !== "ValidationError") return;
             const newErrors = {};
@@ -78,12 +84,39 @@ function EditReview() {
 
     const [errorAlertOpen, setErrorAlertOpen] = useState(false);
 
+    useEffect(() => {
+        if (reviewId) {
+            setReviewInfoIsLoading(true);
+            getReview(reviewId, reviewInfo => {
+                getLeisureInfo(reviewInfo.leisureId, leisureInfo => {
+                    setReviewInfo({
+                        id: reviewInfo.id,
+                        authorId: reviewInfo.authorId,
+                        title: reviewInfo.title,
+                        leisureName: leisureInfo.name,
+                        tagsNames: reviewInfo.tags,
+                        group: reviewInfo.group,
+                        authorRate: reviewInfo.authorRate,
+                        content: reviewInfo.content
+                    });
+                    setReviewInfoIsLoading(false);
+                });
+            });
+        }
+    }, []);
+
 
     return (
         <>
             <Header />
             <Container>
                 <Box sx={{ mt: 2 }}>
+                {reviewInfoIsLoading ? (
+                    <Box sx={{ display: "flex", justifyContent: "center" }}>
+                        <CircularProgress />
+                    </Box>
+
+                ) : (
                     <TabContext value={tabValue}>
                         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                             <TabList 
@@ -270,7 +303,7 @@ function EditReview() {
                             }}
                             >
                                 <LoadingButton
-                                    loading={isLoading}
+                                    loading={saveButtonIsLoading}
                                     variant="contained"
                                     type="submit"
                                     onClick={handleSubmit}
@@ -285,6 +318,7 @@ function EditReview() {
                             </Box>
                         </form>
                     </TabContext>
+                )}
                 </Box>
             </Container>
 

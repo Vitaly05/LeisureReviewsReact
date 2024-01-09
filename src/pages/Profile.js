@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import { Box, Button, Container, Pagination, Paper, Skeleton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -11,8 +11,6 @@ import { checkAccessToCreateReview, getUserInfo, getUserReviewPagesCount, getUse
 import ReviewCardsList from "../components/ReviewCardsList";
 
 function Profile() {
-    const navigate = useNavigate();
-
     const { username } = useParams();
 
     const [canCreateReview, setCanCreateReview] = useState(false);
@@ -28,8 +26,9 @@ function Profile() {
     const [isReviewCardsLoading, setIsReviewCardsLoading] = useState(true);
 
     const [userInfo, setUserInfo] = useState({
-        username: undefined,
-        likesCount: undefined,
+        id: "",
+        username: "",
+        likesCount: 0,
         isLoading: true
     });
 
@@ -41,6 +40,10 @@ function Profile() {
             sortTarget: sortTarget,
             sortType: sortType
         });
+    };
+
+    const handleCreateReviewButton = async () => {
+        window.location.href = `/review/new/${userInfo.id}`;
     };
 
 
@@ -56,17 +59,21 @@ function Profile() {
     }, [page, sortInfo]);
 
     useEffect(() => {
+        checkAccessToCreateReview(userInfo.id, () => {
+            setCanCreateReview(true);
+        }, () => {
+            setCanCreateReview(false);
+        });
+    }, [userInfo]);
+
+    useEffect(() => {
         getUserInfo(username, userInfo => {
             setUserInfo({
+                id: userInfo.id,
                 username: userInfo.userName,
                 likesCount: userInfo.likesCount,
                 isLoading: false
             });
-        });
-        checkAccessToCreateReview(username, () => {
-            setCanCreateReview(true);
-        }, () => {
-            setCanCreateReview(false);
         });
     }, []);
 
@@ -125,7 +132,7 @@ function Profile() {
                 {canCreateReview &&
                     <Button
                         variant="contained"
-                        onClick={() => navigate("/review/new")}
+                        onClick={handleCreateReviewButton}
                     >
                         Create New
                     </Button>
@@ -154,6 +161,7 @@ function Profile() {
                 <ReviewCardsList
                     reviewCards={reviewCards}
                     isLoading={isReviewCardsLoading}
+                    canEdit={canCreateReview}
                     sx={{
                         mt: 4
                     }}

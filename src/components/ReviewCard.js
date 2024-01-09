@@ -1,8 +1,10 @@
-import { Box, Button, Card, Chip, LinearProgress, Typography } from "@mui/material";
+import { Box, Button, Card, Chip, IconButton, LinearProgress, Typography } from "@mui/material";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import IconWithText from "./IconWithText";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { grey } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { getLeisureInfo } from "../api";
@@ -12,7 +14,7 @@ import { LeisureGroupsNames } from "../data/LeisureGroups";
 const backgroundColor = grey[50];
 
 
-function ReviewCard({ reviewCardModel }) {
+function ReviewCard({ reviewCardModel, canEdit }) {
     const [leisureInfo, setLeisureInfo] = useState({
         name: "",
         averageRate: undefined,
@@ -126,12 +128,39 @@ function ReviewCard({ reviewCardModel }) {
                         />
                     </Box>
                 </Box>
-                <Button 
-                    variant="contained"
-                    sx={{ mt: 2 }}
-                >
-                    Read
-                </Button>
+                {canEdit ? (
+                    <Box sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mt: 2
+                    }}
+                    >
+                        <Box sx={{ 
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 2
+                        }}
+                        >
+                            <Button variant="contained" onClick={() => window.location.href = `/review/edit/${reviewCardModel.id}`}>
+                                Edit
+                            </Button>
+                            <IconButton>
+                                <VisibilityIcon />
+                            </IconButton>
+                        </Box>
+                        <IconButton color="error">
+                            <DeleteIcon />
+                        </IconButton>
+                    </Box>
+                ) : (
+                    <Button 
+                        variant="contained"
+                        sx={{ mt: 2 }}
+                    >
+                        Read
+                    </Button>
+                )}
             </Box>
         </Card>
     );

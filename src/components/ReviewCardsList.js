@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 import ReviewCard from "./ReviewCard";
 
-function ReviewCardsList({ sx, reviewCards, isLoading }) {
+function ReviewCardsList({ sx, reviewCards, isLoading, canEdit }) {
     const Content = () => {
         if (isLoading) {
             return <CircularProgress />;
@@ -14,7 +14,7 @@ function ReviewCardsList({ sx, reviewCards, isLoading }) {
             );
         } else {
             return reviewCards.map((card, i) =>
-                <ReviewCard reviewCardModel={card} key={i} />
+                <ReviewCard reviewCardModel={card} key={i} canEdit={canEdit} />
             );
         }
     };

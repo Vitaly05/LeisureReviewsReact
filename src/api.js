@@ -1,7 +1,6 @@
 import axios from "axios";
 import { login, logout } from "./redux/slices/authSlice";
 import store from "./redux/store";
-import { setAuthorId } from "./redux/slices/reviewEditorSlice";
 
 // eslint-disable-next-line no-undef
 const apiUrl = process.env.NODE_ENV === "development" ? "/api" : `${process.env.REACT_APP_API_HOST}/api`;
@@ -15,12 +14,11 @@ export const checkAuth = () => {
     api.get("account/check-auth")
         .then(response => {
             setAccountInfo(response.data);
-            store.dispatch(setAuthorId(response.data.currentUser.id));
         }).catch(defaultErrorHandler);
 };
 
-export const checkAccessToCreateReview = (username, onSuccess, onError) => {
-    api.get(`account/check-create-review-access?username=${username}`).then(response => {
+export const checkAccessToCreateReview = (authorId, onSuccess, onError) => {
+    api.get(`account/check-create-review-access/${authorId}`).then(response => {
         if (response.status === 200) {
             onSuccess();
         }
@@ -117,15 +115,21 @@ export const getUserInfo = (username, onSuccess) => {
         }).catch(defaultErrorHandler);
 };
 
-export const saveReview = (authorId, reviewInfo, onSuccess, onError) => {
-    api.post("/reviews/save-review", {
-        ...reviewInfo,
-        authorId: authorId
-    }).then(response => {
+export const saveReview = (reviewInfo, onSuccess, onError) => {
+    api.post("/reviews/save-review", reviewInfo).then(response => {
+        console.log(response.status)
         if (response.status === 200) {
             onSuccess();
         }
     }).catch(onError);
+};
+
+export const getReview = (reviewId, onSuccess) => {
+    api.get(`/reviews/get-review/${reviewId}`).then(response => {
+        if (response.status === 200) {
+            onSuccess(response.data);
+        }
+    }).catch(defaultErrorHandler);
 };
 
 
@@ -139,6 +143,7 @@ const setAccountInfo = (responseData) => {
     }
     const currentUser = responseData.currentUser;
     sessionStorage.setItem("currentUser", JSON.stringify({
-        username: currentUser.userName
+        username: currentUser.userName,
+        id: currentUser.id
     }));
 };
