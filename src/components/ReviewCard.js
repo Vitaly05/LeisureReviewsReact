@@ -14,18 +14,22 @@ import { LeisureGroupsNames } from "../data/LeisureGroups";
 const backgroundColor = grey[50];
 
 
-function ReviewCard({ reviewCardModel, canEdit }) {
+function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
     const [leisureInfo, setLeisureInfo] = useState({
         name: "",
         averageRate: undefined,
         isLoading: true
     });
 
+    const handleDeleteButton = () => {
+        onDelete(reviewCardModel);
+    };
+
     useEffect(() => {
         setLeisureInfo(prevState => ({
             ...prevState,
             isLoading: true
-    }));
+        }));
         getLeisureInfo(reviewCardModel.leisureId, (info) => {
             setLeisureInfo({
                 name: info.name,
@@ -149,7 +153,7 @@ function ReviewCard({ reviewCardModel, canEdit }) {
                                 <VisibilityIcon />
                             </IconButton>
                         </Box>
-                        <IconButton color="error">
+                        <IconButton color="error" onClick={handleDeleteButton}>
                             <DeleteIcon />
                         </IconButton>
                     </Box>

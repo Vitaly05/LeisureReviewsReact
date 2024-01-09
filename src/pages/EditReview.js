@@ -50,7 +50,6 @@ function EditReview() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(reviewInfo)
         try {
             await validationSchema.validate(reviewInfo, {
                 abortEarly: false
@@ -65,7 +64,10 @@ function EditReview() {
                     id: reviewId
                 }));
                 showSuccessDialog();
-            }, () => setErrorAlertOpen(true));
+            }, () => {
+                setSaveButtonIsLoading(false);
+                setErrorAlertOpen(true);
+            });
         } catch (err) {
             if (err.name !== "ValidationError") return;
             const newErrors = {};
@@ -337,11 +339,15 @@ function EditReview() {
 
             <Snackbar
                 open={errorAlertOpen}
+                autoHideDuration={5000}
                 onClose={() => setErrorAlertOpen(false)}
-                autoHideDuration={10000}
-                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
-                <Alert severity="error" onClick={() => setErrorAlertOpen(false)}>Error occured</Alert>
+                <Alert 
+                    severity="error" 
+                    onClose={() => setErrorAlertOpen(false)}
+                >
+                    Failed to save the review
+                </Alert>
             </Snackbar>
         </>
     );

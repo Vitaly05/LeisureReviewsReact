@@ -46,8 +46,7 @@ function Profile() {
         window.location.href = `/review/new/${userInfo.id}`;
     };
 
-
-    useEffect(() => {
+    const getReviewsList = () => {
         setIsReviewCardsLoading(true);
         getUserReviews(username, page, sortInfo.sortTarget, sortInfo.sortType, userReviews => {
             setReviewCards(userReviews);
@@ -56,6 +55,10 @@ function Profile() {
         getUserReviewPagesCount(username, pagesCount => {
             setPagesCount(pagesCount);
         });
+    };
+
+    useEffect(() => {
+        getReviewsList();
     }, [page, sortInfo]);
 
     useEffect(() => {
@@ -162,6 +165,7 @@ function Profile() {
                     reviewCards={reviewCards}
                     isLoading={isReviewCardsLoading}
                     canEdit={canCreateReview}
+                    updateListMethod={getReviewsList}
                     sx={{
                         mt: 4
                     }}

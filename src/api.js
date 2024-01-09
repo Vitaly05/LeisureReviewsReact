@@ -123,6 +123,18 @@ export const saveReview = (reviewInfo, onSuccess, onError) => {
     }).catch(onError);
 };
 
+export const deleteReview = (reviewId, onSuccess, onError, onFinally) => {
+    api.delete(`/reviews/delete-review/${reviewId}`).then(response => {
+        if (response.status === 200) {
+            onSuccess();
+        }
+    }).catch((error) => {
+        if (error.name === "AxiosError") {
+            onError();
+        }
+    }).finally(() => onFinally());
+};
+
 export const getReview = (reviewId, onSuccess) => {
     api.get(`/reviews/get-review/${reviewId}`).then(response => {
         if (response.status === 200) {
