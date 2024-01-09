@@ -58,8 +58,12 @@ function EditReview() {
             setErrors({});
 
             setSaveButtonIsLoading(true);
-            saveReview(reviewInfo, () => {
+            saveReview(reviewInfo, (reviewId) => {
                 setSaveButtonIsLoading(false);
+                setReviewInfo(prevState => ({
+                    ...prevState,
+                    id: reviewId
+                }));
                 showSuccessDialog();
             }, () => setErrorAlertOpen(true));
         } catch (err) {
@@ -80,6 +84,7 @@ function EditReview() {
 
     const closeSuccessDialog = () => {
         setSuccessDialogOpen(false);
+        window.location.href = `/review/edit/${reviewInfo.id}`;
     };
 
     const [errorAlertOpen, setErrorAlertOpen] = useState(false);

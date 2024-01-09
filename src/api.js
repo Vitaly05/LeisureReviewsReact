@@ -117,9 +117,8 @@ export const getUserInfo = (username, onSuccess) => {
 
 export const saveReview = (reviewInfo, onSuccess, onError) => {
     api.post("/reviews/save-review", reviewInfo).then(response => {
-        console.log(response.status)
         if (response.status === 200) {
-            onSuccess();
+            onSuccess(response.data);
         }
     }).catch(onError);
 };
