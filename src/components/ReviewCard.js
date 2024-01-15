@@ -21,8 +21,12 @@ function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
         isLoading: true
     });
 
-    const handleDeleteButton = () => {
+    const handleDeleteButtonClick = () => {
         onDelete(reviewCardModel);
+    };
+
+    const handleReadButtonClick = () => {
+        window.location.href = `/review/${reviewCardModel.id}`;
     };
 
     useEffect(() => {
@@ -42,6 +46,10 @@ function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
     return (
         <Card
             sx={{
+                minWidth: {
+                    xs: 300,
+                    sm: 500,
+                },
                 width: {
                     xs: 300,
                     sm: 500,
@@ -54,6 +62,8 @@ function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
                 sx={{
                     display: "flex",
                     flexDirection: "column",
+                    justifyContent: "space-between",
+                    height: "100%",
                     p: 3
                 }}
             >
@@ -149,17 +159,18 @@ function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
                             <Button variant="contained" onClick={() => window.location.href = `/review/edit/${reviewCardModel.id}`}>
                                 Edit
                             </Button>
-                            <IconButton>
+                            <IconButton onClick={handleReadButtonClick}>
                                 <VisibilityIcon />
                             </IconButton>
                         </Box>
-                        <IconButton color="error" onClick={handleDeleteButton}>
+                        <IconButton color="error" onClick={handleDeleteButtonClick}>
                             <DeleteIcon />
                         </IconButton>
                     </Box>
                 ) : (
                     <Button 
                         variant="contained"
+                        onClick={handleReadButtonClick}
                         sx={{ mt: 2 }}
                     >
                         Read

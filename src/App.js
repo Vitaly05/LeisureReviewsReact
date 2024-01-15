@@ -5,6 +5,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import EditReview from "./pages/EditReview";
+import Review from "./pages/Review";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                 <Route path="/sign-up" element={<SignUp />} />
                 <Route path="/user/:username" element={<Profile />} />
                 <Route path="/review">
+                    <Route path=":reviewId" element={<Review />} />
                     <Route path="new/:authorId" element={<EditReview />} />
                     <Route path="edit/:reviewId" element={<EditReview />} />
                 </Route>

@@ -11,7 +11,15 @@ if (process.env.NODE_ENV === "development") {
             secure: false,
             changeOrigin: true
         });
+
+        const hubProxy = createProxyMiddleware("/hub", {
+            target: process.env.REACT_APP_API_HOST,
+            ws: true,
+            secure: false,
+            changeOrigin: true
+        });
         
         app.use(appProxy);
+        app.use(hubProxy);
     };
 }

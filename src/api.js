@@ -25,6 +25,14 @@ export const checkAccessToCreateReview = (authorId, onSuccess, onError) => {
     }).catch(onError);
 };
 
+export const checkAccessToLikeReview = (reviewId, onSuccess) => {
+    api.get(`reviews/can-like/${reviewId}`).then(response => {
+        if (response.status === 200) {
+            onSuccess(response.data);
+        }
+    }).catch(defaultErrorHandler);
+};
+
 export const signIn = (data, onSuccess, onError, onFinally) => {
     api.post("account/sign-in", {
         username: data.username,
@@ -115,6 +123,15 @@ export const getUserInfo = (username, onSuccess) => {
         }).catch(defaultErrorHandler);
 };
 
+export const getUserInfoById = (userId, onSuccess) => {
+    api.get(`users/get-info-by-id/${userId}`)
+        .then(response => {
+            if (response.status === 200) {
+                onSuccess(response.data);
+            }
+        }).catch(defaultErrorHandler);
+};
+
 export const saveReview = (reviewInfo, onSuccess, onError) => {
     api.post("/reviews/save-review", reviewInfo).then(response => {
         if (response.status === 200) {
@@ -143,9 +160,43 @@ export const getReview = (reviewId, onSuccess) => {
     }).catch(defaultErrorHandler);
 };
 
+export const getRelatedReviews = (reviewId, onSuccess) => {
+    api.get(`/reviews/get-related-reviews/${reviewId}`).then(response => {
+        if (response.status === 200) {
+            onSuccess(response.data);
+        }
+    }).catch(defaultErrorHandler);
+};
 
-const defaultErrorHandler = () => {
-    console.error("Server connection error");
+export const likeReview = (reviewId, onSuccess, onFinally) => {
+    api.post(`/reviews/like-review/${reviewId}`).then(response => {
+        if (response.status === 200) {
+            onSuccess();
+        }
+    }).catch(defaultErrorHandler).finally(onFinally);
+};
+
+export const getRate = (leisureId, onSuccess) => {
+    api.get(`/leisures/get-rate/${leisureId}`).then(response => {
+        if (response.status === 200) {
+            onSuccess(response.data);
+        }
+    }).catch(defaultErrorHandler);
+};
+
+export const rateLeisure = (leisureId, value, onSuccess) => {
+    api.post(`/leisures/rate/${leisureId}/${value}`).then(response => {
+        if (response.status === 200) {
+            onSuccess(response.data);
+        }
+    }).catch(defaultErrorHandler);
+};
+
+
+const defaultErrorHandler = (error) => {
+    if (error.name === "AxiosError") {
+        console.error("Server connection error");
+    }
 };
 
 const setAccountInfo = (responseData) => {
