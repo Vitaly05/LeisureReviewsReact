@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "../api";
 import { useSelector } from "react-redux";
+import SearchPanel from "./SearchPanel";
 
 function Header() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -22,6 +23,8 @@ function Header() {
 
     const navigate = useNavigate();
     const [drawerOpen, setDrawerOpen] = useState(false);
+
+    const [isSearchDialogOpen, setIsSearchDialogOpen] = useState(false);
 
     const toggleDrawer = () => {
         setDrawerOpen(!drawerOpen);
@@ -133,7 +136,7 @@ function Header() {
                 }
                 <Divider />
                     <ListItem disablePadding>
-                        <ListItemButton>
+                        <ListItemButton onClick={() => setIsSearchDialogOpen(true)}>
                             <ListItemIcon>
                                 <SearchIcon />
                             </ListItemIcon>
@@ -157,144 +160,152 @@ function Header() {
     };
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography 
-                        variant="h6"
-                        component="a"
-                        href="/"
-                        sx={{
-                            mr: "auto",
-                            color: "inherit",
-                            textDecoration: "none",
-                        }}
-                    >
-                        Leisure Reviews
-                    </Typography>
-                    <Box
-                        sx={{
-                            display: {
-                                xs: "none",
-                                sm: "inherit"
-                            },
-                            alignItems: "center"
-                        }}
-                    >
-                        <Box sx={{ mr: 3 }}>
-                            <IconButton
-                                size="large"
-                                color="inherit"
-                                aria-label="search"
-                            >
-                                <SearchIcon />
-                            </IconButton>
-                            <IconButton
-                                size="large"
-                                color="inherit"
-                                aria-label="night mode"
-                            >
-                                <ModeNightIcon />
-                            </IconButton>
-                        </Box>
-                        {isAuthenticated ?
-                        <>
-                            <Button 
-                                variant="text"
-                                color="inherit"
-                                onClick={showUserDropdownMenu}
-                            >
-                                <Box sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: 1
-                                }}
-                                >
-                                    <PersonIcon />
-                                    <Typography textTransform="none">
-                                        {currentUser.username}
-                                    </Typography>
-                                    <ArrowDropDownIcon />
-                                </Box>
-                            </Button>
-                            <Menu
-                                anchorEl={anchorEl}
-                                open={userDropdownOpen}
-                                onClose={hideUserDropdownMenu}
-                                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-                                transformOrigin={{ horizontal: "right", vertical: "top" }}
-                            >
-                                <MenuItem 
-                                    href={`/user/${currentUser.username}`} 
-                                    component="a"
-                                >
-                                    <ListItemIcon>
-                                        <AccountBoxIcon />
-                                    </ListItemIcon>
-                                    Profile
-                                </MenuItem>
-                                <MenuItem onClick={handleCreateReviewButton}>
-                                    <ListItemIcon>
-                                        <AddIcon />
-                                    </ListItemIcon>
-                                    <ListItemText>
-                                        Create Review
-                                    </ListItemText>
-                                </MenuItem>
-                                <Divider />
-                                <MenuItem
-                                    variant="contained"
-                                    color="error"
-                                    onClick={signOut}
-                                >
-                                    <ListItemIcon>
-                                        <LogoutIcon />
-                                    </ListItemIcon>
-                                    Sign Out
-                                </MenuItem>
-                            </Menu>
-                        </>
-                        :
-                            <Box>
-                                <Button 
+        <>
+            <Box sx={{ flexGrow: 1 }}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <Typography 
+                            variant="h6"
+                            component="a"
+                            href="/"
+                            sx={{
+                                mr: "auto",
+                                color: "inherit",
+                                textDecoration: "none",
+                            }}
+                        >
+                            Leisure Reviews
+                        </Typography>
+                        <Box
+                            sx={{
+                                display: {
+                                    xs: "none",
+                                    sm: "inherit"
+                                },
+                                alignItems: "center"
+                            }}
+                        >
+                            <Box sx={{ mr: 3 }}>
+                                <IconButton
+                                    size="large"
                                     color="inherit"
-                                    onClick={() => navigate("/sign-in")}
+                                    aria-label="search"
+                                    onClick={() => setIsSearchDialogOpen(true)}
                                 >
-                                    Sign In
-                                </Button>
-                                <Button 
+                                    <SearchIcon />
+                                </IconButton>
+                                <IconButton
+                                    size="large"
                                     color="inherit"
-                                    onClick={() => navigate("/sign-up")}
+                                    aria-label="night mode"
                                 >
-                                    Sign Up
-                                </Button>
+                                    <ModeNightIcon />
+                                </IconButton>
                             </Box>
-                        }
-                    </Box>
-                    <IconButton
-                        size="large"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{
-                            display: {
-                                xs: "flex",
-                                sm: "none"
+                            {isAuthenticated ?
+                            <>
+                                <Button 
+                                    variant="text"
+                                    color="inherit"
+                                    onClick={showUserDropdownMenu}
+                                >
+                                    <Box sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 1
+                                    }}
+                                    >
+                                        <PersonIcon />
+                                        <Typography textTransform="none">
+                                            {currentUser.username}
+                                        </Typography>
+                                        <ArrowDropDownIcon />
+                                    </Box>
+                                </Button>
+                                <Menu
+                                    anchorEl={anchorEl}
+                                    open={userDropdownOpen}
+                                    onClose={hideUserDropdownMenu}
+                                    anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                                    transformOrigin={{ horizontal: "right", vertical: "top" }}
+                                >
+                                    <MenuItem 
+                                        href={`/user/${currentUser.username}`} 
+                                        component="a"
+                                    >
+                                        <ListItemIcon>
+                                            <AccountBoxIcon />
+                                        </ListItemIcon>
+                                        Profile
+                                    </MenuItem>
+                                    <MenuItem onClick={handleCreateReviewButton}>
+                                        <ListItemIcon>
+                                            <AddIcon />
+                                        </ListItemIcon>
+                                        <ListItemText>
+                                            Create Review
+                                        </ListItemText>
+                                    </MenuItem>
+                                    <Divider />
+                                    <MenuItem
+                                        variant="contained"
+                                        color="error"
+                                        onClick={signOut}
+                                    >
+                                        <ListItemIcon>
+                                            <LogoutIcon />
+                                        </ListItemIcon>
+                                        Sign Out
+                                    </MenuItem>
+                                </Menu>
+                            </>
+                            :
+                                <Box>
+                                    <Button 
+                                        color="inherit"
+                                        onClick={() => navigate("/sign-in")}
+                                    >
+                                        Sign In
+                                    </Button>
+                                    <Button 
+                                        color="inherit"
+                                        onClick={() => navigate("/sign-up")}
+                                    >
+                                        Sign Up
+                                    </Button>
+                                </Box>
                             }
-                        }}
-                        onClick={toggleDrawer}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Drawer
-                        anchor="right"
-                        open={drawerOpen}
-                        onClose={toggleDrawer}
-                    >
-                        <DrawerMenuContent />
-                    </Drawer>
-                </Toolbar>
-            </AppBar>
-        </Box>
+                        </Box>
+                        <IconButton
+                            size="large"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{
+                                display: {
+                                    xs: "flex",
+                                    sm: "none"
+                                }
+                            }}
+                            onClick={toggleDrawer}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Drawer
+                            anchor="right"
+                            open={drawerOpen}
+                            onClose={toggleDrawer}
+                        >
+                            <DrawerMenuContent />
+                        </Drawer>
+                    </Toolbar>
+                </AppBar>
+            </Box>
+            
+            <SearchPanel 
+                open={isSearchDialogOpen} 
+                onClose={() => setIsSearchDialogOpen(false)}
+            />
+        </>
     );
 }
 

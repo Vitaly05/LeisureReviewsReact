@@ -7,6 +7,8 @@
 :root {
     --blockquoteColor: #cdced6;
     --mdxeditorContentBorderColor: rgb(240, 240, 243);
+    --highlightedColor: #003dff;
+    --shadowColor: black;
 }
 
 .rti--input {
@@ -35,4 +37,20 @@
     margin-top: 1em;
     margin-bottom: 1em;
     padding-left: 1em;
+}
+
+.highlighted-search-hit {
+    background-color: transparent;
+    color: var(--highlightedColor);
+}
+.ais-InfiniteHits-item {
+    list-style: none;
+}
+.search-review-result:hover {
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--shadowColor);
+}
+
+.width-100 {
+    width: 100%;
 }
