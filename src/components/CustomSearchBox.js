@@ -1,8 +1,11 @@
 import { TextField } from "@mui/material";
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useSearchBox } from "react-instantsearch";
 
 function CustomSearchBox(props) {
+    const { t } = useTranslation();
+
     const { query, refine } = useSearchBox(props);
     const [inputValue, setInputValue] = useState(query);
     const inputRef = useRef(null);
@@ -15,7 +18,7 @@ function CustomSearchBox(props) {
     return (
         <TextField
             ref={inputRef}
-            placeholder="Search..."
+            placeholder={`${t("Search")}...`}
             autoComplete="off"
             type="search"
             value={inputValue}

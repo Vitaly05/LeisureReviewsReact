@@ -5,13 +5,16 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { LoadingButton } from "@mui/lab";
-
-const validationSchema = Yup.object({
-    username: Yup.string().required(),
-    password: Yup.string().required()
-});
+import { useTranslation } from "react-i18next";
 
 function SignUp() {
+    const { t } = useTranslation();
+
+    const validationSchema = Yup.object({
+        username: Yup.string().required(t("Please enter username")),
+        password: Yup.string().required(t("Please enter password"))
+    });
+
     const formik = useFormik({
         initialValues: {
             username: "",
@@ -26,7 +29,7 @@ function SignUp() {
             }, (reason) => {
                 if (reason.response.data.code === 2) {
                     console.error(reason.response.data.message);
-                    setErrorMessage("Username is already taken");
+                    setErrorMessage(t("Username is already taken"));
                 }
             }, () => setIsLoading(false));
         }
@@ -69,14 +72,14 @@ function SignUp() {
                             component="h1"
                             variant="h5"
                         >
-                            Sign Up
+                            {t("Sign Up")}
                         </Typography>
                         <Divider sx={{ width: "100%" }} />
                     </Box>
                     <TextField
                         fullWidth
                         autoComplete="username"
-                        label="Username"
+                        label={t("Username")}
                         id="username"
                         name="username"
                         value={formik.values.username}
@@ -89,7 +92,7 @@ function SignUp() {
                         fullWidth
                         type="password"
                         autoComplete="password"
-                        label="Password"
+                        label={t("Password")}
                         id="password"
                         name="password"
                         value={formik.values.password}
@@ -104,7 +107,7 @@ function SignUp() {
                                 control={<Checkbox />}
                                 label={
                                     <Typography variant="body2">
-                                        Remember me
+                                        {t("Remember me")}
                                     </Typography>
                                 }
                                 id="rememberMe"
@@ -122,7 +125,7 @@ function SignUp() {
                             sx={{ width: "100%" }}
                             type="submit"
                         >
-                            Sign Up
+                            {t("Sign Up")}
                         </LoadingButton>
                         {errorMessage.length > 0 &&
                             <FormHelperText error>
@@ -136,9 +139,11 @@ function SignUp() {
                         gap: 1
                     }}
                     >
-                        <Typography variant="body2">Already have an account?</Typography>
+                        <Typography variant="body2">
+                            {t("Already have an account?")}
+                        </Typography>
                         <Button onClick={() => navigate("/sign-in")}>
-                            Sign In
+                            {t("Sign In")}
                         </Button>
                     </Box>
                 </Paper>

@@ -9,8 +9,11 @@ import { SortTarget, SortType } from "../data/SortParams";
 import SortPanel from "../components/SortPanel";
 import { checkAccessToCreateReview, getUserInfo, getUserReviewPagesCount, getUserReviews } from "../api";
 import ReviewCardsList from "../components/ReviewCardsList";
+import { useTranslation } from "react-i18next";
 
 function Profile() {
+    const { t } = useTranslation();
+
     const { username } = useParams();
 
     const [canCreateReview, setCanCreateReview] = useState(false);
@@ -130,14 +133,14 @@ function Profile() {
             }}
             >
                 <Typography variant="h5">
-                    Reviews
+                    {t("Reviews")}
                 </Typography>
                 {canCreateReview &&
                     <Button
                         variant="contained"
                         onClick={handleCreateReviewButton}
                     >
-                        Create New
+                        {t("Create review")}
                     </Button>
                 }
                 <Box sx={{

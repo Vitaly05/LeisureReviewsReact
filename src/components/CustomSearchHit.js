@@ -1,7 +1,10 @@
 import { Paper, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { Highlight } from "react-instantsearch";
 
 function CustomSearchHit({ hit }) {
+    const { t } = useTranslation();
+
     return (
         <Paper 
             sx={{
@@ -21,7 +24,7 @@ function CustomSearchHit({ hit }) {
                 />
             </Typography>
             <Typography variant="body2">
-                Leisure: 
+                {`${t("Leisure")}: `}
                 <b>
                     <Highlight 
                         attribute="leisure" 

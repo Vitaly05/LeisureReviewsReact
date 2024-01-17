@@ -5,8 +5,11 @@ import { getReviewPagesCount, getReviewsPage } from "../api";
 import { SortTarget, SortType } from "../data/SortParams";
 import ReviewCardsList from "../components/ReviewCardsList";
 import TagsCloud from "../components/TagsCloud";
+import { useTranslation } from "react-i18next";
 
 function Home() {
+    const { t } = useTranslation();
+
     const [pagesCount, setPagesCount] = useState(0);
     const [sortTarget, setSortTarget] = useState(SortTarget.date);
     const [page, setPage] = useState(1);
@@ -53,7 +56,7 @@ function Home() {
                         }}
                         onClick={() => setIsTagsCloudOpen(true)}
                     >
-                        Tags cloud
+                        {t("Tags Cloud")}
                     </Button>
                     <Box
                         sx={{
@@ -78,7 +81,7 @@ function Home() {
                             disabled={sortTarget === SortTarget.date}
                             onClick={() => setSortTarget(SortTarget.date)}
                         >
-                            Latest Reviews
+                            {t("Latest Reviews")}
                         </Button>
                         <Button
                             variant="outlined"
@@ -88,7 +91,7 @@ function Home() {
                             disabled={sortTarget === SortTarget.rate}
                             onClick={() => setSortTarget(SortTarget.rate)}
                         >
-                            Top-Rated Reviews
+                            {t("Top-Rated Reviews")}
                         </Button>
                     </Box>
                 </Box>

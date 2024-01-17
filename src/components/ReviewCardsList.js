@@ -3,8 +3,11 @@ import ReviewCard from "./ReviewCard";
 import { useState } from "react";
 import { deleteReview } from "../api";
 import { LoadingButton } from "@mui/lab";
+import { useTranslation } from "react-i18next";
 
 function ReviewCardsList({ sx, reviewCards, isLoading, canEdit, updateListMethod }) {
+    const { t } = useTranslation();
+
     const [deleteReviewModel, setDeleteReviewModel] = useState({});
     const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
     const [isDeleteButtonLoading, setIsDeleteButtonLoading] = useState(false);
@@ -36,7 +39,7 @@ function ReviewCardsList({ sx, reviewCards, isLoading, canEdit, updateListMethod
         if (reviewCards.length < 1) {
             return (
                 <Typography>
-                    There are no reviews
+                    {t("There are no reviews")}
                 </Typography>
             );
         } else {
@@ -73,7 +76,7 @@ function ReviewCardsList({ sx, reviewCards, isLoading, canEdit, updateListMethod
                 fullWidth
             >
                 <DialogTitle>
-                    Are you sure you want to delete the review?
+                    {t("Are you sure you want to delete the review?")}
                 </DialogTitle>
                 <DialogContent dividers sx={{ display: "flex", justifyContent: "center" }}>
                     <ReviewCard reviewCardModel={deleteReviewModel} canEdit={false} />
@@ -84,14 +87,14 @@ function ReviewCardsList({ sx, reviewCards, isLoading, canEdit, updateListMethod
                         variant="outlined"
                         onClick={() => setDeleteConfirmationOpen(false)}
                     >
-                        Cancel
+                        {t("Cancel")}
                     </Button>
                     <LoadingButton
                         loading={isDeleteButtonLoading}
                         variant="contained"
                         onClick={handleDeleteButton}
                     >
-                        Ok
+                        {t("Ok")}
                     </LoadingButton>
                 </DialogActions>
             </Dialog>
@@ -105,7 +108,7 @@ function ReviewCardsList({ sx, reviewCards, isLoading, canEdit, updateListMethod
                     severity="error"
                     onClose={() => setIsErrorAlertOpen(false)}
                 >
-                    Failed to delete the review
+                    {t("Failed to delete the review")}
                 </Alert>
             </Snackbar>
         </>

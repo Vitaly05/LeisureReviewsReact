@@ -16,11 +16,14 @@ import * as signalR from "@microsoft/signalr";
 import Comment from "../components/Comment";
 import { useSelector } from "react-redux";
 import { LoadingButton } from "@mui/lab";
+import { useTranslation } from "react-i18next";
 
 // eslint-disable-next-line no-undef
 const signalRHubUrl = process.env.NODE_ENV === "development" ? "/hub" : `${process.env.REACT_APP_API_HOST}/hub`;
 
 function Review() {
+    const { t } = useTranslation();
+
     const [isReadOnly, setIsReadOnly] = useState(false);
 
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -220,7 +223,7 @@ function Review() {
                         }}
                         >
                             <Typography>
-                                Leisure: <b>{leisureInfo.name}</b>
+                                {t("Leisure")}: <b>{leisureInfo.name}</b>
                             </Typography>
                             <Box sx={{
                                 display: "flex",
@@ -267,7 +270,7 @@ function Review() {
                                         {authorInfo.name}
                                     </Typography>
                                     <Typography variant="caption">
-                                        Review author
+                                        {t("Review author")}
                                     </Typography>
                                 </Box>
                                 <IconWithText
@@ -301,7 +304,7 @@ function Review() {
                                 sx={{ alignSelf: "center" }}
                                 onClick={likeButtonClickHandler}
                             >
-                                Like
+                                {t("Like button")}
                             </LoadingButton>
                         }
                     </Paper>
@@ -313,7 +316,7 @@ function Review() {
                         }}
                         >
                             <Typography textAlign="center" variant="h5">
-                                See also
+                                {t("See also")}
                             </Typography>
                             <Stack 
                                 direction="row" 
@@ -342,11 +345,15 @@ function Review() {
                     }}
                     >
                         <Typography variant="h5" textAlign="center">
-                            Comments
+                            {t("Comments")}
                         </Typography>
                         {isAuthenticated ? (
                             <Box sx={{
                                 display: "flex",
+                                flexDirection: {
+                                    xs: "column",
+                                    md: "row"
+                                },
                                 alignItems: "center",
                                 gap: 1
                             }}
@@ -354,7 +361,7 @@ function Review() {
                                 <TextField
                                     fullWidth
                                     size="small"
-                                    label="Write your comment"
+                                    label={t("Write your comment")}
                                     value={commentText}
                                     onChange={(e) => setCommentText(e.target.value)}
                                 />
@@ -364,16 +371,17 @@ function Review() {
                                     onClick={sendComment}
                                     variant="contained"
                                 >
-                                    Send
+                                    {t("Send")}
                                 </LoadingButton>
                             </Box>
                         ) : (
                             <Box sx={{ display: "flex", justifyContent: "center", gap: 1}}>
                                 <Typography component="a" href="/sign-in">
-                                    Sign in
+                                    {t("Sign in 2")}
+                                    
                                 </Typography>
                                 <Typography textAlign="center">
-                                    to write a comment
+                                    {t("to write a comment")}
                                 </Typography>
                             </Box>
                         )}
@@ -390,7 +398,7 @@ function Review() {
                                 </Stack>
                             ) : (
                                 <Typography textAlign="center">
-                                    There are no comments
+                                    {t("There are no comments")}
                                 </Typography>
                             )
                         )}
@@ -411,7 +419,7 @@ function Review() {
                     onClose={() => setLikeSuccessAlertOpen(false)} 
                     severity="success"
                 >
-                    You have successfully liked the review!
+                    {t("You have successfully liked the review!")}
                 </Alert>
             </Snackbar>
         </>

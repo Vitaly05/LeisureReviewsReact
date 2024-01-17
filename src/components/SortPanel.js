@@ -3,8 +3,11 @@ import { SortTarget, SortType } from "../data/SortParams";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 function SortPanel({ sortTarget, activeSortTarget, activeSortType, onClick }) {
+    const { t } = useTranslation();
+
     const [isActive, setIsActive] = useState(false);
     const [descendingButtonColor, setDescendingButtonColor] = useState("");
     const [ascendingButtonColor, setAscendingButtonColor] = useState("");
@@ -12,13 +15,13 @@ function SortPanel({ sortTarget, activeSortTarget, activeSortType, onClick }) {
     const getSortTargetString = () => {
         switch (sortTarget) {
             case SortTarget.date:
-                return "Date";
+                return t("Date");
             case SortTarget.rate:
-                return "Rate";
+                return t("Rate");
             case SortTarget.likes:
-                return "Likes";
+                return t("Likes");
             default:
-                return "Unknown";
+                return "-";
         }
     };
 

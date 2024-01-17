@@ -1,20 +1,18 @@
-import { Box, Button, Card, Chip, IconButton, LinearProgress, Typography } from "@mui/material";
+import { Box, Button, Chip, IconButton, LinearProgress, Paper, Typography } from "@mui/material";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import IconWithText from "./IconWithText";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { grey } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { getLeisureInfo } from "../api";
 import { LeisureGroupsNames } from "../data/LeisureGroups";
-
-
-const backgroundColor = grey[50];
-
+import { useTranslation } from "react-i18next";
 
 function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
+    const { t } = useTranslation();
+
     const [leisureInfo, setLeisureInfo] = useState({
         name: "",
         averageRate: undefined,
@@ -44,7 +42,7 @@ function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
     }, [reviewCardModel]);
 
     return (
-        <Card
+        <Paper
             sx={{
                 minWidth: {
                     xs: 300,
@@ -54,8 +52,7 @@ function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
                     xs: 300,
                     sm: 500,
                     md: 700
-                },
-                backgroundColor: backgroundColor
+                }
             }}
         >
             <Box
@@ -91,7 +88,7 @@ function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
                         alignItems: "center"
                     }}
                     >
-                        <Typography variant="body2">Leisure:</Typography>
+                        <Typography variant="body2">{t("Leisure")}:</Typography>
                         {leisureInfo.isLoading ? 
                             <LinearProgress sx={{ 
                                 width: 100,
@@ -105,7 +102,7 @@ function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
                             </Typography>
                             <IconWithText
                                 icon={<StarOutlineIcon />}
-                                text={`${leisureInfo.averageRate === 0 ? "-" : leisureInfo.averageRate}/10`}
+                                text={`${leisureInfo.averageRate === 0 ? "-" : leisureInfo.averageRate}/5`}
                                 sx={{ ml: 2 }}
                             />
                         </>
@@ -157,7 +154,7 @@ function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
                         }}
                         >
                             <Button variant="contained" onClick={() => window.location.href = `/review/edit/${reviewCardModel.id}`}>
-                                Edit
+                                {t("Edit")}
                             </Button>
                             <IconButton onClick={handleReadButtonClick}>
                                 <VisibilityIcon />
@@ -173,11 +170,11 @@ function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
                         onClick={handleReadButtonClick}
                         sx={{ mt: 2 }}
                     >
-                        Read
+                        {t("Read")}
                     </Button>
                 )}
             </Box>
-        </Card>
+        </Paper>
     );
 }
 

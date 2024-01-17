@@ -1,6 +1,6 @@
 import { AppBar, Box, Button, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import ModeNightIcon from "@mui/icons-material/ModeNight";
+import LanguageIcon from "@mui/icons-material/Language";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import PersonIcon from "@mui/icons-material/Person";
@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import { signOut } from "../api";
 import { useSelector } from "react-redux";
 import SearchPanel from "./SearchPanel";
+import i18n from "../i18n";
+import { t } from "i18next";
 
 function Header() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -41,6 +43,12 @@ function Header() {
 
     const handleCreateReviewButton = () => {
         window.location.href = `/review/new/${currentUser.id}`;
+    };
+
+    const toggleLanguage = () => {
+        const newLanguage = i18n.language === "en" ? "ru" : "en";
+        i18n.changeLanguage(newLanguage);
+        window.localStorage.setItem("lang", newLanguage);
     };
 
 
@@ -85,7 +93,7 @@ function Header() {
                                 <AccountBoxIcon />
                             </ListItemIcon>
                             <ListItemText>
-                                Profile
+                                {t("Profile")}
                             </ListItemText>
                         </ListItemButton>
                     </ListItem>
@@ -95,7 +103,7 @@ function Header() {
                                 <AddIcon />
                             </ListItemIcon>
                             <ListItemText>
-                                Create Review
+                                {t("Create review")}
                             </ListItemText>
                         </ListItemButton>
                     </ListItem>
@@ -111,7 +119,7 @@ function Header() {
                                 <LogoutIcon />
                             </ListItemIcon>
                             <ListItemText>
-                                Sign Out
+                                {t("Sign Out")}
                             </ListItemText>
                         </ListItemButton>
                     </ListItem>
@@ -121,14 +129,14 @@ function Header() {
                     <ListItem disablePadding>
                         <ListItemButton onClick={() => navigate("/sign-in")}>
                             <ListItemText>
-                                Sign In
+                                {t("Sign In")}
                             </ListItemText>
                         </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
                         <ListItemButton onClick={() => navigate("/sign-up")}>
                             <ListItemText>
-                                Sign Up
+                                {t("Sign Up")}
                             </ListItemText>
                         </ListItemButton>
                     </ListItem>
@@ -141,17 +149,17 @@ function Header() {
                                 <SearchIcon />
                             </ListItemIcon>
                             <ListItemText>
-                                Search
+                                {t("Search")}
                             </ListItemText>
                         </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
-                        <ListItemButton>
+                        <ListItemButton onClick={() => toggleLanguage()}>
                             <ListItemIcon>
-                                <ModeNightIcon />
+                                <LanguageIcon />
                             </ListItemIcon>
                             <ListItemText>
-                                Dark mode
+                                {i18n.language === "en" ? "Russian" : "English"}
                             </ListItemText>
                         </ListItemButton>
                     </ListItem>
@@ -194,13 +202,14 @@ function Header() {
                                 >
                                     <SearchIcon />
                                 </IconButton>
-                                <IconButton
-                                    size="large"
-                                    color="inherit"
-                                    aria-label="night mode"
+                                <Button
+                                    onClick={() => toggleLanguage()}
+                                    variant="contained"
+                                    color="secondary"
+                                    startIcon={<LanguageIcon />}
                                 >
-                                    <ModeNightIcon />
-                                </IconButton>
+                                    {i18n.language === "en" ? "ru" : "en"}
+                                </Button>
                             </Box>
                             {isAuthenticated ?
                             <>
@@ -236,14 +245,14 @@ function Header() {
                                         <ListItemIcon>
                                             <AccountBoxIcon />
                                         </ListItemIcon>
-                                        Profile
+                                        {t("Profile")}
                                     </MenuItem>
                                     <MenuItem onClick={handleCreateReviewButton}>
                                         <ListItemIcon>
                                             <AddIcon />
                                         </ListItemIcon>
                                         <ListItemText>
-                                            Create Review
+                                            {t("Create review")}
                                         </ListItemText>
                                     </MenuItem>
                                     <Divider />
@@ -255,7 +264,7 @@ function Header() {
                                         <ListItemIcon>
                                             <LogoutIcon />
                                         </ListItemIcon>
-                                        Sign Out
+                                        {t("Sign Out")}
                                     </MenuItem>
                                 </Menu>
                             </>
@@ -265,13 +274,13 @@ function Header() {
                                         color="inherit"
                                         onClick={() => navigate("/sign-in")}
                                     >
-                                        Sign In
+                                        {t("Sign In")}
                                     </Button>
                                     <Button 
                                         color="inherit"
                                         onClick={() => navigate("/sign-up")}
                                     >
-                                        Sign Up
+                                        {t("Sign Up")}
                                     </Button>
                                 </Box>
                             }

@@ -7,6 +7,7 @@ import "@mdxeditor/editor/style.css";
 import { checkAuth } from "./api";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import "./i18n";
 
 checkAuth();
 

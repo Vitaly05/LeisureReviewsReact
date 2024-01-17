@@ -3,8 +3,11 @@ import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { getUsersPage, getUsersPagesCount } from "../api";
 import User from "../components/User";
+import { useTranslation } from "react-i18next";
 
 function AdminPanel() {
+    const { t } = useTranslation();
+
     const [isAccessDenied, setIsAccessDenied] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [pagesCount, setPagesCount] = useState(0);
@@ -42,7 +45,7 @@ function AdminPanel() {
         if (isAccessDenied) {
             return (
                 <Typography textAlign="center" sx={{ mt: 2 }}>
-                    Access denied
+                    {t("Access denied")}
                 </Typography>
             );
         }

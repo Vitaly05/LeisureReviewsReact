@@ -8,16 +8,26 @@ import { TagsInput } from "react-tag-input-component";
 import { AdmonitionDirectiveDescriptor, BlockTypeSelect, BoldItalicUnderlineToggles, CreateLink, InsertAdmonition, InsertThematicBreak, ListsToggle, MDXEditor, Separator, UndoRedo, directivesPlugin, headingsPlugin, linkDialogPlugin, linkPlugin, listsPlugin, markdownShortcutPlugin, quotePlugin, thematicBreakPlugin, toolbarPlugin } from "@mdxeditor/editor";
 import { getLeisureInfo, getReview, saveReview } from "../api";
 import { useParams } from "react-router-dom";
-
-const validationSchema = Yup.object({
-    title: Yup.string().required().max(255),
-    leisureName: Yup.string().required(),
-    group: Yup.number().required().moreThan(0),
-    authorRate: Yup.number().required().min(0).max(10),
-    content: Yup.string().required()
-});
+import { useTranslation } from "react-i18next";
 
 function EditReview() {
+    const { t } = useTranslation();
+
+    const validationSchema = Yup.object({
+        title: Yup.string()
+            .required(t("Please enter title"))
+            .max(255, t("Max title length is 255")),
+        leisureName: Yup.string().required(t("Please enter leisure")),
+        group: Yup.number()
+            .required(t("Please select group"))
+            .moreThan(0, t("Please select group")),
+        authorRate: Yup.number()
+            .required(t("Please enter your rate"))
+            .min(0, t("Min rate is 0"))
+            .max(10, t("Max rate is 10")),
+        content: Yup.string().required(t("Please enter content"))
+    });
+
     const { authorId, reviewId } = useParams();
 
     const [tabValue, setTabValue] = useState("main");
@@ -130,8 +140,8 @@ function EditReview() {
                                 onChange={handleTabChange}
                                 variant="fullWidth"
                             >
-                                <Tab label="Main Info" value="main" />
-                                <Tab label="Content" value="content" />
+                                <Tab label={t("Main Info")} value="main" />
+                                <Tab label={t("Content")} value="content" />
                             </TabList>
                         </Box>
                         <form onSubmit={handleSubmit}>
@@ -146,7 +156,7 @@ function EditReview() {
                                     <FormControl fullWidth>
                                         <TextField
                                             autoComplete="off"
-                                            label="Title"
+                                            label={t("Title")}
                                             id="title"
                                             name="title"
                                             value={reviewInfo.title}
@@ -160,7 +170,7 @@ function EditReview() {
                                     <FormControl fullWidth>
                                         <TextField
                                             autoComplete="off"
-                                            label="Leisure"
+                                            label={t("Leisure")}
                                             id="leisure"
                                             name="leisure"
                                             value={reviewInfo.leisureName}
@@ -173,7 +183,7 @@ function EditReview() {
                                     </FormControl>
                                     <FormControl fullWidth>
                                         <TagsInput
-                                            placeHolder="Tags"
+                                            placeHolder={t("Tags")}
                                             id="tags"
                                             name="tags"
                                             value={reviewInfo.tagsNames}
@@ -202,10 +212,12 @@ function EditReview() {
                                         }}
                                         >
                                             <FormControl>
-                                                <InputLabel id="group-label">Group</InputLabel>
+                                                <InputLabel id="group-label">
+                                                    {t("Group")}
+                                                </InputLabel>
                                                 <Select 
                                                     labelId="group-label"
-                                                    label="Group"
+                                                    label={t("Group")}
                                                     sx={{ width: 100 }}
                                                     name="group"
                                                     value={reviewInfo.group}
@@ -213,7 +225,7 @@ function EditReview() {
                                                     error={!!errors.group}
                                                 >
                                                     <MenuItem value={0} disabled>
-                                                        Group
+                                                        {t("Group")}
                                                     </MenuItem>
                                                     {LeisureGroups.map(group => 
                                                         <MenuItem key={group.id} value={group.id}>
@@ -236,7 +248,7 @@ function EditReview() {
                                                 sx={{ width: 100 }}
                                                 inputProps={{ sx: { textAlign: "center" } }}
                                                 autoComplete="off"
-                                                label="Rate"
+                                                label={t("Rate author")}
                                                 id="rate"
                                                 name="rate"
                                                 value={reviewInfo.authorRate}
@@ -315,11 +327,11 @@ function EditReview() {
                                     type="submit"
                                     onClick={handleSubmit}
                                 >
-                                    Save
+                                    {t("Save")}
                                 </LoadingButton>
                                 {Object.keys(errors).length > 0 &&
                                     <FormHelperText error>
-                                        Validation error
+                                        {t("Validation error")}
                                     </FormHelperText>
                                 }
                             </Box>
@@ -330,10 +342,10 @@ function EditReview() {
             </Container>
 
             <Dialog onClose={closeSuccessDialog} open={successDialogOpen}>
-                <DialogTitle>The review has been successfully saved!</DialogTitle>
+                <DialogTitle>{t("The review has been successfully saved!")}</DialogTitle>
                 <DialogActions>
-                    <Button href="/" variant="contained">Go to home</Button>
-                    <Button onClick={closeSuccessDialog} variant="outlined">Continue editing</Button>
+                    <Button href="/" variant="contained">{t("Go to home")}</Button>
+                    <Button onClick={closeSuccessDialog} variant="outlined">{t("Continue editing")}</Button>
                 </DialogActions>
             </Dialog>
 
@@ -346,7 +358,7 @@ function EditReview() {
                     severity="error" 
                     onClose={() => setErrorAlertOpen(false)}
                 >
-                    Failed to save the review
+                    {t("Failed to save the review")}
                 </Alert>
             </Snackbar>
         </>

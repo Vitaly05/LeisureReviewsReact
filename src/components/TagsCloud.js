@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 import { getTagsWeights } from "../api";
 import { TagCloud } from "react-tagcloud";
 import CloseIcon from "@mui/icons-material/Close";
+import { useTranslation } from "react-i18next";
 
 function TagsCloud({ open, onClose }) {
+    const { t } = useTranslation();
+
     const [tags, setTags] = useState([]);
     useEffect(() => {
         getTagsWeights((data) => {
@@ -28,7 +31,7 @@ function TagsCloud({ open, onClose }) {
                 <CloseIcon />
             </IconButton> 
             <DialogTitle>
-                Tags Cloud
+                {t("Tags Cloud")}
             </DialogTitle>
             <DialogContent dividers>
                 <TagCloud

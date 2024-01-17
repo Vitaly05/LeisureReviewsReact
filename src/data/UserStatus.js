@@ -1,7 +1,9 @@
+import i18next from "i18next";
+
 export const UserStatusNames = {
-    0: "Active",
-    1: "Blocked",
-    2: "Deleted"
+    0: i18next.t("Active"),
+    1: i18next.t("Blocked"),
+    2: i18next.t("Deleted")
 };
 
 export const UserStatus = {

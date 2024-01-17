@@ -1,3 +1,5 @@
+import i18next from "i18next";
+
 const LeisureGroupsId = {
     movie: 1,
     serial: 2,
@@ -9,21 +11,21 @@ const LeisureGroupsId = {
 };
 
 export const LeisureGroupsNames = {
-    1: "Movie",
-    2: "Serial",
-    3: "Book",
-    4: "Game",
-    5: "Music",
-    6: "Place",
-    7: "Sport"
+    1: i18next.t("Movie"),
+    2: i18next.t("Serial"),
+    3: i18next.t("Book"),
+    4: i18next.t("Game"),
+    5: i18next.t("Music"),
+    6: i18next.t("Place"),
+    7: i18next.t("Sport")
 };
 
 export const LeisureGroups = [
-    { id: LeisureGroupsId.movie, name: "Movie" },
-    { id: LeisureGroupsId.serial, name: "Serial" },
-    { id: LeisureGroupsId.book, name: "Book" },
-    { id: LeisureGroupsId.game, name: "Game" },
-    { id: LeisureGroupsId.music, name: "Music" },
-    { id: LeisureGroupsId.place, name: "Place" },
-    { id: LeisureGroupsId.sport, name: "Sport" }
+    { id: LeisureGroupsId.movie, name: i18next.t("Movie") },
+    { id: LeisureGroupsId.serial, name: i18next.t("Serial") },
+    { id: LeisureGroupsId.book, name: i18next.t("Book") },
+    { id: LeisureGroupsId.game, name: i18next.t("Game") },
+    { id: LeisureGroupsId.music, name: i18next.t("Music") },
+    { id: LeisureGroupsId.place, name: i18next.t("Place") },
+    { id: LeisureGroupsId.sport, name: i18next.t("Sport") }
 ];

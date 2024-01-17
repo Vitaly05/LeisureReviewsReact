@@ -11,8 +11,11 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { UserStatus, UserStatusNames } from "../data/UserStatus";
 import { useState } from "react";
 import { changeUserStatus, makeAdmin } from "../api";
+import { useTranslation } from "react-i18next";
 
 function User({ model }) {
+    const { t } = useTranslation();
+    
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -72,11 +75,11 @@ function User({ model }) {
             }}
             >
                 <Typography>
-                    Status: {UserStatusNames[userStatus]}
+                    {t("Status")}: {UserStatusNames[userStatus]}
                 </Typography>
                 {isAdmin &&
                     <Typography color="error">
-                        | Admin
+                        | {t("Admin")}
                     </Typography>
                 }
             </Box>
@@ -86,7 +89,7 @@ function User({ model }) {
                     endIcon={<KeyboardArrowDownIcon />}
                     onClick={handleClick}
                 >
-                    Options
+                    {t("Options")}
                 </Button>
                 <Menu
                     elevation={0}
@@ -107,14 +110,15 @@ function User({ model }) {
                             <ListItemIcon>
                                 <AccountBoxIcon />
                             </ListItemIcon>
-                            Profile
+                            {t("Profile")}
+                            
                         </MenuItem>
                         {userStatus !== UserStatus.blocked &&
                             <MenuItem onClick={() => changeStatus(UserStatus.blocked)}>
                                 <ListItemIcon>
                                     <LockPersonIcon />
                                 </ListItemIcon>
-                                Block
+                                {t("Block")}
                             </MenuItem>
                         }
                         {userStatus !== UserStatus.active &&
@@ -122,7 +126,7 @@ function User({ model }) {
                                 <ListItemIcon>
                                     <LockOpenIcon />
                                 </ListItemIcon>
-                                Unblock
+                                {t("Unblock")}
                             </MenuItem>
                         }
                         {!model.roles.includes("Admin") &&
@@ -130,14 +134,14 @@ function User({ model }) {
                                 <ListItemIcon>
                                     <AdminPanelSettingsIcon />
                                 </ListItemIcon>
-                                Make admin
+                                {t("Make admin")}
                             </MenuItem>
                         }
                         <MenuItem onClick={() => changeStatus(UserStatus.deleted)}>
                             <ListItemIcon>
                                 <DeleteIcon color="error" />
                             </ListItemIcon>
-                            Delete
+                            {t("Delete")}
                         </MenuItem>
                     </Paper>
                 </Menu>
