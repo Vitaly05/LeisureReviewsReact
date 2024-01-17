@@ -41,8 +41,13 @@ function User({ model }) {
         <Paper sx={{
             p: 2,
             display: "flex",
+            flexDirection: {
+                xs: "column",
+                sm: "row"
+            },
             justifyContent: "space-between",
-            alignItems: "center"
+            alignItems: "center",
+            gap: 2
         }}
         >
             <Box sx={{
