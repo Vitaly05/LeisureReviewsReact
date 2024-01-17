@@ -1,4 +1,4 @@
-import { Box, Button, ListItemIcon, ListItemText, Menu, MenuItem, Paper, Typography } from "@mui/material";
+import { Box, Button, ListItemIcon, Menu, MenuItem, Paper, Typography } from "@mui/material";
 import IconWithText from "../components/IconWithText";
 import PersonIcon from "@mui/icons-material/Person";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
