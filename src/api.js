@@ -192,6 +192,52 @@ export const rateLeisure = (leisureId, value, onSuccess) => {
     }).catch(defaultErrorHandler);
 };
 
+export const getUsersPagesCount = (onSuccess, onForbid) => {
+    api.get("/users/get-pages-count").then(response => {
+        if (response.status === 200) {
+            onSuccess(response.data);
+        }
+    }).catch(reason => {
+        if (reason?.response.status === 403) {
+            onForbid();
+        }
+    });
+};
+
+export const getUsersPage = (page, onSuccess, onForbid, onFinally) => {
+    api.get(`/users/get-page/${page}`).then(response => {
+        if (response.status === 200) {
+            onSuccess(response.data);
+        }
+    }).catch(reason => {
+        if (reason?.response.status === 403) {
+            onForbid();
+        }
+    }).finally(onFinally);
+};
+
+export const changeUserStatus = (username, status, onSuccess) => {
+    api.post("/users/change-status", {
+        userName: username,
+        status: status
+    }).then(response => {
+        if (response.status === 200) {
+            onSuccess(response.data);
+        }
+    }).catch(defaultErrorHandler);
+};
+
+export const makeAdmin = (username, onSuccess) => {
+    api.post("/users/change-role", {
+        userName: username,
+        role: 0
+    }).then(response => {
+        if (response.status === 200) {
+            onSuccess();
+        }
+    }).catch(defaultErrorHandler);
+};
+
 
 const defaultErrorHandler = (error) => {
     if (error.name === "AxiosError") {

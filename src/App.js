@@ -6,6 +6,7 @@ import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import EditReview from "./pages/EditReview";
 import Review from "./pages/Review";
+import AdminPanel from "./pages/AdminPanel";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                     <Route path="new/:authorId" element={<EditReview />} />
                     <Route path="edit/:reviewId" element={<EditReview />} />
                 </Route>
+                <Route path="/adminpanel" element={<AdminPanel />} />
             </Routes>
         </Box>
     );
