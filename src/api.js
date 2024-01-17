@@ -238,6 +238,14 @@ export const makeAdmin = (username, onSuccess) => {
     }).catch(defaultErrorHandler);
 };
 
+export const getTagsWeights = (onSuccess) => {
+    api.get("/tags/get-weights").then(response => {
+        if (response.status === 200) {
+            onSuccess(response.data);
+        }
+    }).catch(defaultErrorHandler);
+};
+
 
 const defaultErrorHandler = (error) => {
     if (error.name === "AxiosError") {

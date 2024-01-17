@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getReviewPagesCount, getReviewsPage } from "../api";
 import { SortTarget, SortType } from "../data/SortParams";
 import ReviewCardsList from "../components/ReviewCardsList";
+import TagsCloud from "../components/TagsCloud";
 
 function Home() {
     const [pagesCount, setPagesCount] = useState(0);
@@ -12,6 +13,8 @@ function Home() {
 
     const [reviewCards, setReviewCards] = useState([]);
     const [isReviewCardsLoading, setIsReviewCardsLoading] = useState(true);
+
+    const [isTagsCloudOpen, setIsTagsCloudOpen] = useState(false);
 
     useEffect(() => {
         setIsReviewCardsLoading(true);
@@ -48,6 +51,7 @@ function Home() {
                         sx={{
                             textTransform: "none"
                         }}
+                        onClick={() => setIsTagsCloudOpen(true)}
                     >
                         Tags cloud
                     </Button>
@@ -112,6 +116,8 @@ function Home() {
                     }
                 </Box>
             </Container>
+            
+            <TagsCloud open={isTagsCloudOpen} onClose={() => setIsTagsCloudOpen(false)} />
         </>
     );
 }
