@@ -26,6 +26,7 @@ const resources = {
             "Please enter password": "Пожалуйста, введите пароль",
             "Username is already taken": "Имя пользователя занято",
             "Incorrect username or password": "Неверное имя пользователя или пароль",
+            "Account has been blocked": "Аккаунт заблокирован",
             "Don't have an account?": "Нет аккаунта?",
             "Movie": "Кино",
             "Serial": "Сериал",
@@ -88,7 +89,8 @@ const resources = {
             "Ok": "Да",
             "Failed to delete the review": "Не удалось удалить обзор",
             "Edit": "Редактировать",
-            "Read": "Читать"
+            "Read": "Читать",
+            "Sign in to rate leisure!": "Войдите, чтобы оценить!"
         }
     }
 };

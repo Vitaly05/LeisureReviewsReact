@@ -9,9 +9,49 @@ const api = axios.create({
     baseURL: apiUrl
 });
 
+api.interceptors.request.use(setAccessToken);
 
-export const checkAuth = () => {
-    api.get("account/check-auth")
+function setAccessToken(request) {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+        request.headers.Authorization = `bearer ${accessToken}`;
+    }
+    return request;
+}
+
+api.interceptors.response.use(function(response) {
+    return response;
+}, function(error) {
+    if (error.response?.status === 401) {
+        const refreshToken = localStorage.getItem("refreshToken");
+        const accessToken = localStorage.getItem("accessToken");
+        if (!(refreshToken || accessToken)) {
+            return Promise.reject(error);
+        }
+        api.post("account/refresh", {
+            accessToken: accessToken,
+            refreshToken: refreshToken
+        }).then(function(refreshResponse) {
+            console.log(refreshResponse.status);
+            if (refreshResponse.status === 200) {
+                localStorage.setItem("accessToken", refreshResponse.data.accessToken);
+                localStorage.setItem("refreshToken", refreshResponse.data.refreshToken);
+                store.dispatch(login());
+                api(error.config);
+            } else {
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+                store.dispatch(logout());
+            }
+        }).catch(() => {
+            store.dispatch(logout());
+        });
+    }
+    return Promise.reject(error);
+});
+
+export const getCurrentUserInfo = () => {
+    api.get("account/get-account-info")
         .then(response => {
             setAccountInfo(response.data);
         }).catch(defaultErrorHandler);
@@ -36,11 +76,11 @@ export const checkAccessToLikeReview = (reviewId, onSuccess) => {
 export const signIn = (data, onSuccess, onError, onFinally) => {
     api.post("account/sign-in", {
         username: data.username,
-        password: data.password,
-        rememberMe: data.rememberMe
+        password: data.password
     }).then(response => {
         if (response.status === 200) {
-            setAccountInfo(response.data);
+            setTokens(response.data);
+            getCurrentUserInfo();
             onSuccess();
         }
     }).catch(onError).finally(onFinally);
@@ -49,24 +89,21 @@ export const signIn = (data, onSuccess, onError, onFinally) => {
 export const signUp = (data, onSuccess, onError, onFinally) => {
     api.post("account/sign-up", {
         username: data.username,
-        password: data.password,
-        rememberMe: data.rememberMe
+        password: data.password
     }).then(response => {
         if (response.status === 200) {
-            setAccountInfo(response.data);
+            setTokens(response.data);
+            getCurrentUserInfo();
             onSuccess();
         }
     }).catch(onError).finally(onFinally);
 };
 
 export const signOut = () => {
-    api.post("account/sign-out")
-        .then(response => {
-            if (response.status === 200) {
-                store.dispatch(logout());
-                sessionStorage.removeItem("currentUser");
-            }
-        }).catch(defaultErrorHandler);
+    store.dispatch(logout());
+    sessionStorage.removeItem("currentUser");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
 };
 
 export const getReviewsPage = (page, sortTarget, sortType, onSuccess) => {
@@ -254,12 +291,16 @@ const defaultErrorHandler = (error) => {
 };
 
 const setAccountInfo = (responseData) => {
-    if (responseData.isAuthorized) {
+    if (responseData) {
         store.dispatch(login());
     }
-    const currentUser = responseData.currentUser;
     sessionStorage.setItem("currentUser", JSON.stringify({
-        username: currentUser.userName,
-        id: currentUser.id
+        username: responseData.userName,
+        id: responseData.id
     }));
+};
+
+const setTokens = (responseData) => {
+    localStorage.setItem("accessToken", responseData.accessToken);
+    localStorage.setItem("refreshToken", responseData.refreshToken);
 };

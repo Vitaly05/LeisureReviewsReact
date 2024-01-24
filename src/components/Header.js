@@ -51,6 +51,14 @@ function Header() {
         window.localStorage.setItem("lang", newLanguage);
     };
 
+    const signInClickHandler = () => {
+        navigate(`/sign-in?return-url=${window.location.pathname}`)
+    };
+
+    const signUpClickHandler = () => {
+        navigate(`/sign-up?return-url=${window.location.pathname}`)
+    };
+
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -127,14 +135,14 @@ function Header() {
                 :
                 <>
                     <ListItem disablePadding>
-                        <ListItemButton onClick={() => navigate("/sign-in")}>
+                        <ListItemButton onClick={signInClickHandler}>
                             <ListItemText>
                                 {t("Sign In")}
                             </ListItemText>
                         </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
-                        <ListItemButton onClick={() => navigate("/sign-up")}>
+                        <ListItemButton onClick={signUpClickHandler}>
                             <ListItemText>
                                 {t("Sign Up")}
                             </ListItemText>
@@ -272,13 +280,13 @@ function Header() {
                                 <Box>
                                     <Button 
                                         color="inherit"
-                                        onClick={() => navigate("/sign-in")}
+                                        onClick={signInClickHandler}
                                     >
                                         {t("Sign In")}
                                     </Button>
                                     <Button 
                                         color="inherit"
-                                        onClick={() => navigate("/sign-up")}
+                                        onClick={signUpClickHandler}
                                     >
                                         {t("Sign Up")}
                                     </Button>

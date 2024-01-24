@@ -1,14 +1,18 @@
-import { Box, Button, Checkbox, Container, Divider, FormControlLabel, FormGroup, FormHelperText, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Divider, FormHelperText, IconButton, Paper, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { signIn } from "../api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { LoadingButton } from "@mui/lab";
 import { useTranslation } from "react-i18next";
+import HomeIcon from "@mui/icons-material/Home";
 
 function SignIn() {
     const { t } = useTranslation();
+
+    const [searchParams] = useSearchParams();
+    const returnUrl = searchParams.get("return-url");
 
     const validationSchema = Yup.object({
         username: Yup.string().required(t("Please enter username")),
@@ -18,18 +22,18 @@ function SignIn() {
     const formik = useFormik({
         initialValues: {
             username: "",
-            password: "",
-            rememberMe: false
+            password: ""
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
             setIsLoading(true);
             signIn(values, () => {
-                navigate("/");
+                navigate(returnUrl || "/");
             }, (reason) => {
                 if (reason.response.data.code === 1) {
-                    console.error(reason.response.data.message);
                     setErrorMessage(t("Incorrect username or password"));
+                } else if (reason.response.data.code === 2) {
+                    setErrorMessage(t("Account has been blocked"));
                 }
             }, () => setIsLoading(false));
         }
@@ -68,12 +72,22 @@ function SignIn() {
                         gap: 1
                     }}
                     >
-                        <Typography 
-                            component="h1"
-                            variant="h5"
+                        <Box sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center"
+                        }}
                         >
-                            {t("Sign In")}
-                        </Typography>
+                            <Typography 
+                                component="h1"
+                                variant="h5"
+                            >
+                                {t("Sign In")}
+                            </Typography>
+                            <IconButton onClick={() => navigate("/")}>
+                                <HomeIcon />
+                            </IconButton>
+                        </Box>
                         <Divider sx={{ width: "100%" }} />
                     </Box>
                     <TextField
@@ -102,23 +116,6 @@ function SignIn() {
                         helperText={formik.touched.password && formik.errors.password}
                     />
                     <Box sx={{ width: "100%" }}>
-                        <FormGroup>
-                            <FormControlLabel
-                                control={<Checkbox />}
-                                label={
-                                    <Typography variant="body2">
-                                        {t("Remember me")}
-                                    </Typography>
-                                }
-                                id="rememberMe"
-                                name="rememberMe"
-                                value={formik.values.rememberMe}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.rememberMe && !!formik.errors.rememberMe}
-                                helperText={formik.touched.rememberMe && formik.errors.rememberMe}
-                            />
-                        </FormGroup>
                         <LoadingButton
                             loading={isLoading}
                             variant="contained"
@@ -142,7 +139,7 @@ function SignIn() {
                         <Typography variant="body2">
                             {t("Don't have an account?")}
                         </Typography>
-                        <Button onClick={() => navigate("/sign-up")}>
+                        <Button onClick={() => navigate(`/sign-up?return-url=${returnUrl}`)}>
                             {t("Sign Up")}
                         </Button>
                     </Box>

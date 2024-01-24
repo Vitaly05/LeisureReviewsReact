@@ -49,6 +49,8 @@ function Review() {
     const [isLikeButtonLoading, setIsLikeButtonLoading] = useState(false);
     const [likeSuccessAlertOpen, setLikeSuccessAlertOpen] = useState(false);
 
+    const [signInAlertOpen, setSignInAlertOpen] = useState(false);
+
     const [userRating, setUserRating] = useState(0);
 
     const [isCommentsLoading, setIsCommentsLoading] = useState(true);
@@ -83,13 +85,17 @@ function Review() {
     };
 
     const ratingClickHandler = (e, newValue) => {
-        setUserRating(newValue);
-        rateLeisure(leisureInfo.id, newValue, newAvgRate => {
-            setLeisureInfo(prevState => ({
-                ...prevState,
-                averageRate: newAvgRate
-            }));
-        });
+        if (isAuthenticated) {
+            setUserRating(newValue);
+            rateLeisure(leisureInfo.id, newValue, newAvgRate => {
+                setLeisureInfo(prevState => ({
+                    ...prevState,
+                    averageRate: newAvgRate
+                }));
+            });
+        } else {
+            setSignInAlertOpen(true);
+        }
     };
 
     const updateAuthorData = (userData) => {
@@ -130,8 +136,12 @@ function Review() {
         const initConnection = async () => {
             if (connection) return;
 
+            const accessToken = window.localStorage.getItem("accessToken");
+
             const newConnection = new signalR.HubConnectionBuilder()
-                .withUrl(`${signalRHubUrl}/comments`)
+                .withUrl(`${signalRHubUrl}/comments`, {
+                    accessTokenFactory: () => accessToken
+                })
                 .configureLogging(signalR.LogLevel.Information)
                 .build();
     
@@ -376,7 +386,7 @@ function Review() {
                             </Box>
                         ) : (
                             <Box sx={{ display: "flex", justifyContent: "center", gap: 1}}>
-                                <Typography component="a" href="/sign-in">
+                                <Typography component="a" href={`/sign-in?return-url=${window.location.pathname}`}>
                                     {t("Sign in 2")}
                                     
                                 </Typography>
@@ -420,6 +430,19 @@ function Review() {
                     severity="success"
                 >
                     {t("You have successfully liked the review!")}
+                </Alert>
+            </Snackbar>
+
+            <Snackbar 
+                open={signInAlertOpen} 
+                autoHideDuration={5000} 
+                onClose={() => setSignInAlertOpen(false)}
+            >
+                <Alert 
+                    onClose={() => setSignInAlertOpen(false)} 
+                    severity="error"
+                >
+                    {t("Sign in to rate leisure!")}
                 </Alert>
             </Snackbar>
         </>
