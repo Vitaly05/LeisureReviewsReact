@@ -6,7 +6,8 @@ import store from "./redux/store";
 const apiUrl = process.env.NODE_ENV === "development" ? "/api" : `${process.env.REACT_APP_API_HOST}/api`;
 
 const api = axios.create({
-    baseURL: apiUrl
+    baseURL: apiUrl,
+    withCredentials: true
 });
 
 api.interceptors.request.use(setAccessToken);
