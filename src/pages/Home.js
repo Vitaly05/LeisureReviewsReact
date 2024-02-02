@@ -1,4 +1,4 @@
-import { Box, Button, Container, Pagination } from "@mui/material";
+import { Box, Button, Container, Pagination, Paper } from "@mui/material";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { getReviewPagesCount, getReviewsPage } from "../api";
@@ -38,19 +38,30 @@ function Home() {
             <Header />
             <Container>
                 {/* Buttons */}
-                <Box
+                <Paper
                     sx={{
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
                         gap: 2,
-                        mt: 2
+                        mt: 2,
+                        p: 2,
+                        mx: "auto",
+                        minWidth: {
+                            xs: 300,
+                            sm: 500,
+                        },
+                        width: {
+                            xs: 300,
+                            sm: 500,
+                            md: 700
+                        }
                     }}
                 >
                     <Button
                         variant="text"
-                        size="large"
+                        size="medium"
                         sx={{
                             textTransform: "none"
                         }}
@@ -76,7 +87,7 @@ function Home() {
                         <Button
                             variant="outlined"
                             sx={{
-                                width: 250
+                                width: 200
                             }}
                             disabled={sortTarget === SortTarget.date}
                             onClick={() => setSortTarget(SortTarget.date)}
@@ -86,7 +97,7 @@ function Home() {
                         <Button
                             variant="outlined"
                             sx={{
-                                width: 250
+                                width: 200
                             }}
                             disabled={sortTarget === SortTarget.rate}
                             onClick={() => setSortTarget(SortTarget.rate)}
@@ -94,21 +105,32 @@ function Home() {
                             {t("Top-Rated Reviews")}
                         </Button>
                     </Box>
-                </Box>
+                </Paper>
                 <ReviewCardsList
                     isLoading={isReviewCardsLoading}
                     reviewCards={reviewCards}
                     sx={{
-                        mt: 4
+                        my: 4
                     }}
                 />
-                <Box sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    my: 4
-                }}
-                >
-                    {pagesCount > 1 &&
+                {pagesCount > 1 &&
+                    <Paper sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        mb: 4,
+                        mx: "auto",
+                        py: 1,
+                        minWidth: {
+                            xs: 300,
+                            sm: 500,
+                        },
+                        width: {
+                            xs: 300,
+                            sm: 500,
+                            md: 700
+                        }
+                    }}
+                    >
                         <Pagination 
                             count={pagesCount}
                             page={page}
@@ -116,8 +138,8 @@ function Home() {
                             color="primary"
                             shape="rounded"
                         />
-                    }
-                </Box>
+                    </Paper>
+                }
             </Container>
             
             <TagsCloud open={isTagsCloudOpen} onClose={() => setIsTagsCloudOpen(false)} />

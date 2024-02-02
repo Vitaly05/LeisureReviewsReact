@@ -22,7 +22,8 @@ function SearchPanel({ open, onClose }) {
                 sx={{
                     position: "absolute",
                     right: 0,
-                    top: 0
+                    top: 0,
+                    zIndex: 2
                 }}
             >
                 <CloseIcon />

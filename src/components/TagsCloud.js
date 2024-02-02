@@ -26,7 +26,7 @@ function TagsCloud({ open, onClose }) {
         >
             <IconButton 
                 onClick={onClose}
-                sx={{ position: "absolute", right: 0 }}
+                sx={{ position: "absolute", right: 0, zIndex: 2 }}
             >
                 <CloseIcon />
             </IconButton> 

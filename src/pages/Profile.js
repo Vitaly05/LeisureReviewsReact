@@ -90,7 +90,17 @@ function Profile() {
                 ...sx,
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "space-between"
+                justifyContent: "space-between",
+                mx: "auto",
+                minWidth: {
+                    xs: 300,
+                    sm: 500,
+                },
+                width: {
+                    xs: 300,
+                    sm: 500,
+                    md: 700
+                }
             }}
             >
                 <Box sx={{
@@ -123,7 +133,7 @@ function Profile() {
 
     const UserReviews = ({ sx }) => {
         return (
-            <Paper sx={{
+            <Box sx={{
                 ...sx,
                 display: "flex",
                 flexDirection: "column",
@@ -170,19 +180,37 @@ function Profile() {
                     canEdit={canCreateReview}
                     updateListMethod={getReviewsList}
                     sx={{
-                        mt: 4
+                        my: 4,
                     }}
                 />
                 {pagesCount > 1 &&
-                    <Pagination 
-                        count={pagesCount}
-                        page={page}
-                        onChange={(e, val) => setPage(val)}
-                        color="primary"
-                        shape="rounded"
-                    />
+                    <Paper sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        mb: 4,
+                        mx: "auto",
+                        py: 1,
+                        minWidth: {
+                            xs: 300,
+                            sm: 500,
+                        },
+                        width: {
+                            xs: 300,
+                            sm: 500,
+                            md: 700
+                        }
+                    }}
+                    >
+                        <Pagination 
+                            count={pagesCount}
+                            page={page}
+                            onChange={(e, val) => setPage(val)}
+                            color="primary"
+                            shape="rounded"
+                        />
+                    </Paper>
                 }
-            </Paper>
+            </Box>
         );
     };
 

@@ -7,10 +7,14 @@ import Profile from "./pages/Profile";
 import EditReview from "./pages/EditReview";
 import Review from "./pages/Review";
 import AdminPanel from "./pages/AdminPanel";
+import BgParticles from "./components/BgParticles";
 
 function App() {
     return (
-        <Box>
+        <>
+        <BgParticles />
+        <Box >
+            
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/sign-in" element={<SignIn />} />
@@ -24,6 +28,7 @@ function App() {
                 <Route path="/adminpanel" element={<AdminPanel />} />
             </Routes>
         </Box>
+        </>
     );
 }
 

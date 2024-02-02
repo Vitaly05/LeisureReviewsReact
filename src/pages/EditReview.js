@@ -1,6 +1,6 @@
 import { LoadingButton, TabContext, TabList, TabPanel } from "@mui/lab";
 import Header from "../components/Header";
-import { Alert, Box, Button, CircularProgress, Container, Dialog, DialogActions, DialogTitle, FormControl, FormHelperText, InputLabel, MenuItem, Select, Snackbar, Tab, TextField } from "@mui/material";
+import { Alert, Box, Button, CircularProgress, Container, Dialog, DialogActions, DialogTitle, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, Snackbar, Tab, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { LeisureGroups } from "../data/LeisureGroups";
@@ -127,7 +127,7 @@ function EditReview() {
         <>
             <Header />
             <Container>
-                <Box sx={{ mt: 2 }}>
+                <Paper sx={{ mt: 2, py: 2 }}>
                 {reviewInfoIsLoading ? (
                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                         <CircularProgress />
@@ -338,7 +338,7 @@ function EditReview() {
                         </form>
                     </TabContext>
                 )}
-                </Box>
+                </Paper>
             </Container>
 
             <Dialog onClose={closeSuccessDialog} open={successDialogOpen}>
