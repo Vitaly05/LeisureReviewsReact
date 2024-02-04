@@ -331,11 +331,11 @@ const defaultErrorHandler = (error) => {
 const setAccountInfo = (responseData) => {
     if (responseData) {
         store.dispatch(login());
+        sessionStorage.setItem("currentUser", JSON.stringify({
+            username: responseData.userName,
+            id: responseData.id
+        }));
     }
-    sessionStorage.setItem("currentUser", JSON.stringify({
-        username: responseData.userName,
-        id: responseData.id
-    }));
 };
 
 const setTokens = (responseData) => {

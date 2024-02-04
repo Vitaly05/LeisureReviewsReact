@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { Box } from "@mui/material";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
@@ -9,35 +9,14 @@ import Review from "./pages/Review";
 import AdminPanel from "./pages/AdminPanel";
 import BgParticles from "./components/BgParticles";
 import AdditionalInfo from "./pages/AdditionalInfo";
-import { useGoogleOneTapLogin } from "@react-oauth/google";
-import { useDispatch, useSelector } from "react-redux";
-import { setCredential } from "./redux/slices/googleAuthSlice";
-import { googleSignIn } from "./api";
+import GoogleOneTapLogin from "./components/GoogleOneTapLogin";
 
 function App() {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
-    const onGoogleSignInSuccess = async (credentialResponse) => {
-        await dispatch(setCredential(credentialResponse.credential));
-        googleSignIn(credentialResponse.credential, () => {
-            //navigate(returnUrl || "/");
-        }, () => {
-            navigate(`/additional-info?return-url=${window.location.pathname}`);
-        });
-    };
-
-    useGoogleOneTapLogin({
-        onSuccess: onGoogleSignInSuccess,
-        disabled: isAuthenticated
-    });
-
     return (
         <>
             <BgParticles />
             <Box>
+                <GoogleOneTapLogin />
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/sign-in" element={<SignIn />} />
@@ -50,7 +29,7 @@ function App() {
                         <Route path="edit/:reviewId" element={<EditReview />} />
                     </Route>
                     <Route path="/adminpanel" element={<AdminPanel />} />
-                </Routes>
+                </Routes>  
             </Box>
         </>
     );
