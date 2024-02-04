@@ -52,16 +52,17 @@ function Header() {
     };
 
     const signInClickHandler = () => {
-        navigate(`/sign-in?return-url=${window.location.pathname}`)
+        navigate(`/sign-in?return-url=${window.location.pathname}`);
     };
 
     const signUpClickHandler = () => {
-        navigate(`/sign-up?return-url=${window.location.pathname}`)
+        navigate(`/sign-up?return-url=${window.location.pathname}`);
     };
 
 
     useEffect(() => {
         if (isAuthenticated) {
+            hideUserDropdownMenu();
             setCurrentUser(JSON.parse(sessionStorage.getItem("currentUser")));
         }
     }, [isAuthenticated]);

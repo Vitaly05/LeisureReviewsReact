@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import { LoadingButton } from "@mui/lab";
 import { useTranslation } from "react-i18next";
 import HomeIcon from "@mui/icons-material/Home";
+import ExternalSignIn from "../components/ExternalSignIn";
 
 function SignIn() {
     const { t } = useTranslation();
@@ -143,6 +144,12 @@ function SignIn() {
                             {t("Sign Up")}
                         </Button>
                     </Box>
+                    <Divider style={{ width: "100%"}}>
+                        <Typography variant="body2">
+                            {t("Or")}
+                        </Typography>
+                    </Divider>
+                    <ExternalSignIn returnUrl={returnUrl} />
                 </Paper>
             </Container>
         </form>

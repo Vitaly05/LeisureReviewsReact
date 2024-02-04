@@ -90,7 +90,8 @@ const resources = {
             "Failed to delete the review": "Не удалось удалить обзор",
             "Edit": "Редактировать",
             "Read": "Читать",
-            "Sign in to rate leisure!": "Войдите, чтобы оценить!"
+            "Sign in to rate leisure!": "Войдите, чтобы оценить!",
+            "Or": "Или"
         }
     }
 };

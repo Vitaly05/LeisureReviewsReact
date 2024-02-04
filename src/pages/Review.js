@@ -306,7 +306,7 @@ function Review() {
                                 markdownShortcutPlugin()
                             ]}
                         />
-                        {canLike && 
+                        {isAuthenticated && canLike && 
                             <LoadingButton
                                 loading={isLikeButtonLoading}
                                 startIcon={<ThumbUpIcon />}

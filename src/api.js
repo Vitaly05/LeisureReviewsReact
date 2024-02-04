@@ -55,7 +55,11 @@ export const getCurrentUserInfo = () => {
     api.get("account/get-account-info")
         .then(response => {
             setAccountInfo(response.data);
-        }).catch(defaultErrorHandler);
+        }).catch(reason => {
+            if (reason.response?.status === 401) {
+                console.log("Unauthorized");
+            }
+        });
 };
 
 export const checkAccessToCreateReview = (authorId, onSuccess, onError) => {
@@ -105,6 +109,39 @@ export const signOut = () => {
     sessionStorage.removeItem("currentUser");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+};
+
+export const googleSignIn = (credential, onSuccess, onRedirect) => {
+    api.post("account/google-sign-in", {
+        tokenId: credential
+    }).then(response => {
+        if (response.status === 200) {
+            setTokens(response.data);
+            getCurrentUserInfo();
+            onSuccess();
+        }
+    }).catch(err => {
+        if (err.response.data.code === 5) {
+            onRedirect();
+        }
+    });
+};
+
+export const googleSignUp = (username, credential, onSuccess, onError) => {
+    api.post(`account/google-sign-up?username=${username}`, {
+        tokenId: credential
+    }).then(response => {
+        if (response.status === 200) {
+            setTokens(response.data);
+            getCurrentUserInfo();
+            onSuccess();
+        }
+    }).catch(err => {
+        const code = err.response?.data.code;
+        if (code) {
+            onError(code);
+        }
+    });
 };
 
 export const getReviewsPage = (page, sortTarget, sortType, onSuccess) => {
