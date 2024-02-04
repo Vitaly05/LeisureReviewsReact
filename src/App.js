@@ -10,13 +10,30 @@ import AdminPanel from "./pages/AdminPanel";
 import BgParticles from "./components/BgParticles";
 import AdditionalInfo from "./pages/AdditionalInfo";
 import GoogleOneTapLogin from "./components/GoogleOneTapLogin";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 function App() {
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const [showGoogleOneTapLogin, setShowGoogleOneTapLogin] = useState(false);
+
+    useEffect(() => {
+        const showGoogleLoginTimer = setTimeout(() => {
+            setShowGoogleOneTapLogin(true);
+        }, 2000);
+
+        return () => {
+            clearTimeout(showGoogleLoginTimer);
+        };
+    });
+
     return (
         <>
             <BgParticles />
             <Box>
-                <GoogleOneTapLogin />
+                {showGoogleOneTapLogin && !isAuthenticated && 
+                    <GoogleOneTapLogin />
+                }
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/sign-in" element={<SignIn />} />

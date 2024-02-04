@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setCredential } from "../redux/slices/googleAuthSlice";
 import { googleSignIn } from "../api";
@@ -7,8 +7,6 @@ import { useGoogleOneTapLogin } from "@react-oauth/google";
 function GoogleOneTapLogin() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
     const onGoogleSignInSuccess = async (credentialResponse) => {
         await dispatch(setCredential(credentialResponse.credential));
@@ -21,7 +19,6 @@ function GoogleOneTapLogin() {
     
     useGoogleOneTapLogin({
         onSuccess: onGoogleSignInSuccess,
-        disabled: isAuthenticated
     });
 }
 
