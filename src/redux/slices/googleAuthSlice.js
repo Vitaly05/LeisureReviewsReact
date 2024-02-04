@@ -6,11 +6,9 @@ const googleAuthSlice = createSlice({
     reducers: {
         setCredential: (state, action) => {
             state.credential = action.payload;
-            console.log(state.credential)
         },
         clearCredential: (state) => {
             state.credential = "";
-            console.log(state.credential)
         },
     }
 });
