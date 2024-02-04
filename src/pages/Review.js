@@ -3,23 +3,18 @@ import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { checkAccessToLikeReview, getLeisureInfo, getRate, getRelatedReviews, getReview, getUserInfoById, likeReview, rateLeisure } from "../api";
 import { LeisureGroupsNames } from "../data/LeisureGroups";
-import { Alert, Box, Chip, CircularProgress, Container, Paper, Rating, Snackbar, Stack, TextField, Typography } from "@mui/material";
+import { Alert, Box, Chip, CircularProgress, Container, Paper, Rating, Snackbar, Stack, Typography } from "@mui/material";
 import IconWithText from "../components/IconWithText";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PersonIcon from "@mui/icons-material/Person";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import SendIcon from "@mui/icons-material/Send";
 import { AdmonitionDirectiveDescriptor, MDXEditor, directivesPlugin, headingsPlugin, linkPlugin, listsPlugin, markdownShortcutPlugin, quotePlugin, thematicBreakPlugin } from "@mdxeditor/editor";
 import ReviewCard from "../components/ReviewCard";
-import * as signalR from "@microsoft/signalr";
-import Comment from "../components/Comment";
 import { useSelector } from "react-redux";
 import { LoadingButton } from "@mui/lab";
 import { useTranslation } from "react-i18next";
-
-// eslint-disable-next-line no-undef
-const signalRHubUrl = process.env.NODE_ENV === "development" ? "/hub" : `${process.env.REACT_APP_API_HOST}/hub`;
+import Comments from "../components/Comments";
 
 function Review() {
     const { t } = useTranslation();
@@ -52,22 +47,6 @@ function Review() {
     const [signInAlertOpen, setSignInAlertOpen] = useState(false);
 
     const [userRating, setUserRating] = useState(0);
-
-    const [isCommentsLoading, setIsCommentsLoading] = useState(true);
-    const [comments, setComments] = useState([]);
-    const [commentText, setCommentText] = useState("");
-    const [isCommentButtonLoading, setIsCommentButtonLoading] = useState(false);
-
-    const [connection, setConnection] = useState(null);
-
-    const sendComment = async () => {
-        if (commentText.length > 0) {
-            setIsCommentButtonLoading(true);
-            await connection.invoke("send", commentText, reviewInfo.id);
-            setCommentText("");
-            setIsCommentButtonLoading(false);
-        }
-    };
 
     const likeButtonClickHandler = () => {
         setIsLikeButtonLoading(true);
@@ -131,46 +110,6 @@ function Review() {
             setCanLike(canLike);
         });
     }, [reviewId]);
-
-    useEffect(() => {
-        const initConnection = async () => {
-            if (connection) return;
-
-            const accessToken = window.localStorage.getItem("accessToken");
-
-            const newConnection = new signalR.HubConnectionBuilder()
-                .withUrl(`${signalRHubUrl}/comments`, {
-                    accessTokenFactory: () => accessToken
-                })
-                .configureLogging(signalR.LogLevel.Information)
-                .build();
-    
-            newConnection.on("new-comment", (comment) => {
-                setComments(prevState => {
-                    if (prevState.every(c => c.id !== comment.id)) {
-                        return [comment, ...prevState];
-                    }
-                    return prevState;
-                });
-            });
-    
-            newConnection.on("init-comments", (comments) => {
-                setComments(comments);
-            });
-    
-            newConnection.onclose(() => setConnection(null));
-    
-            await newConnection.start();
-            await newConnection.invoke("init", reviewInfo.id);
-            setIsCommentsLoading(false);
-    
-            if (reviewInfo.id) {
-                setConnection(newConnection);
-            }
-        };
-        
-        initConnection();
-    }, [reviewInfo]);
 
     return (
         <>
@@ -345,74 +284,7 @@ function Review() {
                             </Stack>
                         </Paper>
                     }
-                    {/* COMMENTS */}
-                    <Paper sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 2,
-                        mt: 2,
-                        p: 2
-                    }}
-                    >
-                        <Typography variant="h5" textAlign="center">
-                            {t("Comments")}
-                        </Typography>
-                        {isAuthenticated ? (
-                            <Box sx={{
-                                display: "flex",
-                                flexDirection: {
-                                    xs: "column",
-                                    md: "row"
-                                },
-                                alignItems: "center",
-                                gap: 1
-                            }}
-                            >
-                                <TextField
-                                    fullWidth
-                                    size="small"
-                                    label={t("Write your comment")}
-                                    value={commentText}
-                                    onChange={(e) => setCommentText(e.target.value)}
-                                />
-                                <LoadingButton
-                                    loading={isCommentButtonLoading}
-                                    startIcon={<SendIcon />}
-                                    onClick={sendComment}
-                                    variant="contained"
-                                >
-                                    {t("Send")}
-                                </LoadingButton>
-                            </Box>
-                        ) : (
-                            <Box sx={{ display: "flex", justifyContent: "center", gap: 1}}>
-                                <Typography component="a" href={`/sign-in?return-url=${window.location.pathname}`}>
-                                    {t("Sign in 2")}
-                                    
-                                </Typography>
-                                <Typography textAlign="center">
-                                    {t("to write a comment")}
-                                </Typography>
-                            </Box>
-                        )}
-                        {isCommentsLoading ? (
-                            <Box sx={{ display: "flex", justifyContent: "center" }}>
-                                <CircularProgress />
-                            </Box>
-                        ) : (
-                            comments.length > 0 ? (
-                                <Stack spacing={2}>
-                                    {comments.map((comment) => 
-                                        <Comment model={comment} key={comment.id} />
-                                    )}
-                                </Stack>
-                            ) : (
-                                <Typography textAlign="center">
-                                    {t("There are no comments")}
-                                </Typography>
-                            )
-                        )}
-                    </Paper>
+                    <Comments reviewId={reviewInfo.id} sx={{ mt: 2 }} />
                 </Container>
             ) : (
                 <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
