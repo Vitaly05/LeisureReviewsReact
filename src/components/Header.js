@@ -63,7 +63,10 @@ function Header() {
     useEffect(() => {
         if (isAuthenticated) {
             hideUserDropdownMenu();
-            setCurrentUser(JSON.parse(sessionStorage.getItem("currentUser")));
+            const curUser = sessionStorage.getItem("currentUser");
+            if (curUser) {
+                setCurrentUser(JSON.parse(curUser));
+            }
         }
     }, [isAuthenticated]);
 
