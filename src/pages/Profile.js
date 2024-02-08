@@ -73,6 +73,9 @@ function Profile() {
     }, [userInfo]);
 
     useEffect(() => {
+        if (!username) {
+            window.location.href = "/not-found";
+        }
         getUserInfo(username, userInfo => {
             setUserInfo({
                 id: userInfo.id,
@@ -80,8 +83,8 @@ function Profile() {
                 likesCount: userInfo.likesCount,
                 isLoading: false
             });
-        });
-    }, []);
+        }, () => window.location.href = "/not-found");
+    }, [username]);
 
 
     const UserInfo = ({ sx }) => {

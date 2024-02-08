@@ -93,7 +93,8 @@ const resources = {
             "Edit": "Редактировать",
             "Read": "Читать",
             "Sign in to rate leisure!": "Войдите, чтобы оценить!",
-            "Or": "Или"
+            "Or": "Или",
+            "Resource not found": "Ресурс не найден"
         }
     }
 };

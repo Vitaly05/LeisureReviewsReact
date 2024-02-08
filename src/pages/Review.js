@@ -96,7 +96,9 @@ function Review() {
     };
 
     useEffect(() => {
-        if (!reviewId) return;
+        if (!reviewId) {
+            window.location.href = "/not-found";
+        }
 
         getReview(reviewId, reviewData => {
             getUserInfoById(reviewData.authorId, updateAuthorData);
@@ -104,7 +106,7 @@ function Review() {
             setReviewInfo(reviewData);
             getRelatedReviews(reviewData.id, relatedReviews => setRelatedReviews(relatedReviews));
             setTimeout(() => setIsReadOnly(true), 100);
-        });
+        }, () => window.location.href = "/not-found");
 
         checkAccessToLikeReview(reviewId, canLike => {
             setCanLike(canLike);

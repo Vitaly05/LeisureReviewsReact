@@ -118,7 +118,7 @@ function EditReview() {
                     });
                     setReviewInfoIsLoading(false);
                 });
-            });
+            }, () => window.location.href = "/not-found");
         }
     }, []);
 

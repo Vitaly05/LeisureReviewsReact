@@ -189,13 +189,17 @@ export const getLeisureInfo = (leisureId, onSuccess) => {
         }).catch(defaultErrorHandler);
 };
 
-export const getUserInfo = (username, onSuccess) => {
+export const getUserInfo = (username, onSuccess, onError) => {
     api.get(`users/get-info?username=${username}`)
         .then(response => {
             if (response.status === 200) {
                 onSuccess(response.data);
             }
-        }).catch(defaultErrorHandler);
+        }).catch(error => {
+            if (error.name === "AxiosError" && error.response.status === 404) {
+                onError();
+            }
+        });
 };
 
 export const getUserInfoById = (userId, onSuccess) => {
@@ -227,12 +231,16 @@ export const deleteReview = (reviewId, onSuccess, onError, onFinally) => {
     }).finally(() => onFinally());
 };
 
-export const getReview = (reviewId, onSuccess) => {
+export const getReview = (reviewId, onSuccess, onError) => {
     api.get(`/reviews/get-review/${reviewId}`).then(response => {
         if (response.status === 200) {
             onSuccess(response.data);
         }
-    }).catch(defaultErrorHandler);
+    }).catch(error => {
+        if (error.name === "AxiosError" && error.response.status === 404) {
+            onError();
+        }
+    });
 };
 
 export const getRelatedReviews = (reviewId, onSuccess) => {

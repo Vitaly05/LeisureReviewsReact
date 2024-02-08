@@ -12,6 +12,7 @@ import AdditionalInfo from "./pages/AdditionalInfo";
 import GoogleOneTapLogin from "./components/GoogleOneTapLogin";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import NotFound from "./pages/NotFound";
 
 function App() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -46,6 +47,8 @@ function App() {
                         <Route path="edit/:reviewId" element={<EditReview />} />
                     </Route>
                     <Route path="/adminpanel" element={<AdminPanel />} />
+                    <Route path="/not-found" element={<NotFound />} />
+                    <Route path="/*" element={<NotFound />} />
                 </Routes>  
             </Box>
         </>
