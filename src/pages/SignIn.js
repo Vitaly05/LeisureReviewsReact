@@ -105,6 +105,9 @@ function SignIn() {
                         helperText={formik.touched.username && formik.errors.username}
                     />
                     <PasswordField
+                        id="password"
+                        name="password"
+                        autoComplete="password"
                         label={t("Password")}
                         value={formik.values.password}
                         onChange={formik.handleChange}
