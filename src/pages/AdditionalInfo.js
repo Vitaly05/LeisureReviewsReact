@@ -22,16 +22,18 @@ function AdditionalInfo() {
     const credential = useSelector(state => state.googleAuth.credential);
 
     const [username, setUsername] = useState("");
-    const [usernameError, setUsernameError] = useState("");
 
     const [isLoading, setIsLoading] = useState(false);
 
     const [errorMessage, setErrorMessage] = useState("");
 
-    const handleSignUpClick = async () => {
+    const handleSignUpClick = async (e) => {
+        e.preventDefault();
+        
         try {
             await usernameValidationSchema.validate(username);
             setErrorMessage("");
+            setIsLoading(true);
 
             googleSignUp(username, credential, () => {
                 dispatch(clearCredential());
@@ -40,7 +42,7 @@ function AdditionalInfo() {
                 if (errorCode === 3) {
                     setErrorMessage(t("Username is already taken"));
                 }
-            });
+            }, () => setIsLoading(false));
         } catch (err) {
             if (err.name === "ValidationError") {
                 setErrorMessage(err.message);
@@ -65,63 +67,66 @@ function AdditionalInfo() {
                 height: "100vh",
             }}
         >
-            <Paper
-                elevation={5}
-                sx={{
-                    padding: "20px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "start",
-                    gap: 3
-                }}
-            >
-                <Box sx={{ 
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 1
-                }}
-                >
-                    <Box sx={{
+            <form>
+                <Paper
+                    elevation={5}
+                    sx={{
+                        padding: "20px",
                         display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center"
+                        flexDirection: "column",
+                        alignItems: "start",
+                        gap: 3
+                    }}
+                >
+                    <Box sx={{ 
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 1
                     }}
                     >
-                        <Typography 
-                            component="h1"
-                            variant="h5"
+                        <Box sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center"
+                        }}
                         >
-                            {t("Additional Info")}
-                        </Typography>
-                        <IconButton onClick={() => navigate("/")}>
-                            <HomeIcon />
-                        </IconButton>
+                            <Typography 
+                                component="h1"
+                                variant="h5"
+                            >
+                                {t("Additional Info")}
+                            </Typography>
+                            <IconButton onClick={() => navigate("/")}>
+                                <HomeIcon />
+                            </IconButton>
+                        </Box>
+                        <Divider sx={{ width: "100%" }} />
                     </Box>
-                    <Divider sx={{ width: "100%" }} />
-                </Box>
-                <TextField
-                    fullWidth
-                    label={t("Username")}
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <Box sx={{ width: "100%" }}>
-                    <LoadingButton
-                        loading={isLoading}
-                        variant="contained"
-                        sx={{ width: "100%" }}
-                        onClick={handleSignUpClick}
-                    >
-                        {t("Sign Up")}
-                    </LoadingButton>
-                    {errorMessage &&
-                            <FormHelperText error>
-                                {errorMessage}
-                            </FormHelperText>
-                        }
-                </Box>
-            </Paper>
+                    <TextField
+                        fullWidth
+                        label={t("Username")}
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <Box sx={{ width: "100%" }}>
+                        <LoadingButton
+                            type="submit"
+                            loading={isLoading}
+                            variant="contained"
+                            sx={{ width: "100%" }}
+                            onClick={handleSignUpClick}
+                        >
+                            {t("Sign Up")}
+                        </LoadingButton>
+                        {errorMessage &&
+                                <FormHelperText error>
+                                    {errorMessage}
+                                </FormHelperText>
+                            }
+                    </Box>
+                </Paper>
+            </form>
         </Container>
     );
 }
