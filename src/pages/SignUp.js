@@ -35,7 +35,6 @@ function SignUp() {
                 navigate(returnUrl || "/");
             }, (reason) => {
                 if (reason.response.data.code === 3) {
-                    console.error(reason.response.data.message);
                     setErrorMessage(t("Username is already taken"));
                 }
             }, () => setIsLoading(false));

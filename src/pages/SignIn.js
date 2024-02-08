@@ -115,19 +115,6 @@ function SignIn() {
                         error={formik.touched.password && !!formik.errors.password}
                         helperText={formik.touched.password && formik.errors.password}
                     />
-                    {/* <TextField
-                        fullWidth
-                        type="password"
-                        autoComplete="password"
-                        label={t("Password")}
-                        id="password"
-                        name="password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        error={formik.touched.password && !!formik.errors.password}
-                        helperText={formik.touched.password && formik.errors.password}
-                    /> */}
                     <Box sx={{ width: "100%" }}>
                         <LoadingButton
                             loading={isLoading}

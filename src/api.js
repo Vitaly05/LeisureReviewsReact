@@ -33,7 +33,6 @@ api.interceptors.response.use(function(response) {
             accessToken: accessToken,
             refreshToken: refreshToken
         }).then(function(refreshResponse) {
-            console.log(refreshResponse.status);
             if (refreshResponse.status === 200) {
                 localStorage.setItem("accessToken", refreshResponse.data.accessToken);
                 localStorage.setItem("refreshToken", refreshResponse.data.refreshToken);
@@ -127,7 +126,7 @@ export const googleSignIn = (credential, onSuccess, onRedirect) => {
     });
 };
 
-export const googleSignUp = (username, credential, onSuccess, onError) => {
+export const googleSignUp = (username, credential, onSuccess, onError, onFinally) => {
     api.post(`account/google-sign-up?username=${username}`, {
         tokenId: credential
     }).then(response => {
@@ -141,7 +140,7 @@ export const googleSignUp = (username, credential, onSuccess, onError) => {
         if (code) {
             onError(code);
         }
-    });
+    }).finally(onFinally);
 };
 
 export const getReviewsPage = (page, sortTarget, sortType, onSuccess) => {
