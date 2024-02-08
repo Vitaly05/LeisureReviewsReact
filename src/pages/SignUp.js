@@ -8,6 +8,7 @@ import { LoadingButton } from "@mui/lab";
 import { useTranslation } from "react-i18next";
 import HomeIcon from "@mui/icons-material/Home";
 import ExternalSignIn from "../components/ExternalSignIn";
+import SecretField from "../components/PasswordField";
 
 function SignUp() {
     const { t } = useTranslation();
@@ -17,13 +18,15 @@ function SignUp() {
 
     const validationSchema = Yup.object({
         username: Yup.string().required(t("Please enter username")),
-        password: Yup.string().required(t("Please enter password"))
+        password: Yup.string().required(t("Please enter password")),
+        confirmPassword: Yup.string().required().oneOf([Yup.ref("password")], t("Passwords don't match"))
     });
 
     const formik = useFormik({
         initialValues: {
             username: "",
-            password: ""
+            password: "",
+            confirmPassword: ""
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -102,18 +105,27 @@ function SignUp() {
                         error={formik.touched.username && !!formik.errors.username}
                         helperText={formik.touched.username && formik.errors.username}
                     />
-                    <TextField
-                        fullWidth
-                        type="password"
-                        autoComplete="password"
-                        label={t("Password")}
+                    <SecretField
                         id="password"
                         name="password"
+                        autoComplete="password"
+                        label={t("Password")}
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         error={formik.touched.password && !!formik.errors.password}
                         helperText={formik.touched.password && formik.errors.password}
+                    />
+                    <SecretField
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        autoComplete="password"
+                        label={t("Confirm password")}
+                        value={formik.values.confirmPassword}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
+                        helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
                     />
                     <Box sx={{ width: "100%" }}>
                         <LoadingButton

@@ -8,6 +8,7 @@ import { LoadingButton } from "@mui/lab";
 import { useTranslation } from "react-i18next";
 import HomeIcon from "@mui/icons-material/Home";
 import ExternalSignIn from "../components/ExternalSignIn";
+import PasswordField from "../components/PasswordField";
 
 function SignIn() {
     const { t } = useTranslation();
@@ -103,7 +104,15 @@ function SignIn() {
                         error={formik.touched.username && !!formik.errors.username}
                         helperText={formik.touched.username && formik.errors.username}
                     />
-                    <TextField
+                    <PasswordField
+                        label={t("Password")}
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.password && !!formik.errors.password}
+                        helperText={formik.touched.password && formik.errors.password}
+                    />
+                    {/* <TextField
                         fullWidth
                         type="password"
                         autoComplete="password"
@@ -115,7 +124,7 @@ function SignIn() {
                         onBlur={formik.handleBlur}
                         error={formik.touched.password && !!formik.errors.password}
                         helperText={formik.touched.password && formik.errors.password}
-                    />
+                    /> */}
                     <Box sx={{ width: "100%" }}>
                         <LoadingButton
                             loading={isLoading}
