@@ -280,7 +280,7 @@ export const getUsersPagesCount = (onSuccess, onForbid) => {
             onSuccess(response.data);
         }
     }).catch(reason => {
-        if (reason?.response.status === 403) {
+        if (reason?.response.status === 403 || reason?.response.status === 401) {
             onForbid();
         }
     });
@@ -292,7 +292,7 @@ export const getUsersPage = (page, onSuccess, onForbid, onFinally) => {
             onSuccess(response.data);
         }
     }).catch(reason => {
-        if (reason?.response.status === 403) {
+        if (reason?.response.status === 403 || reason?.response.status === 401) {
             onForbid();
         }
     }).finally(onFinally);

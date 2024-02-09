@@ -4,9 +4,12 @@ import { useEffect, useState } from "react";
 import { getUsersPage, getUsersPagesCount } from "../api";
 import User from "../components/User";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 function AdminPanel() {
     const { t } = useTranslation();
+
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
     const [isAccessDenied, setIsAccessDenied] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -26,12 +29,17 @@ function AdminPanel() {
     }, [page]);
 
     useEffect(() => {
-        getUsersPagesCount((data) => {
-            setPagesCount(data);
-        }, () => {
+        if (!isAuthenticated) {
             setIsAccessDenied(true);
-        });
-    }, []);
+        } else {
+            getUsersPagesCount((data) => {
+                setIsAccessDenied(false);
+                setPagesCount(data);
+            }, () => {
+                setIsAccessDenied(true);
+            });
+        }
+    }, [isAuthenticated]);
 
 
     const Content = () => {
