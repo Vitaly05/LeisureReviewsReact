@@ -38,6 +38,15 @@
     margin-bottom: 1em;
     padding-left: 1em;
 }
+.readonly-mdx-editor div[data-editor-block-type="image"] {
+    display: block;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+.readonly-mdx-editor button[title="Edit image"] {
+    display: none;
+}
 
 .highlighted-search-hit {
     background-color: transparent;

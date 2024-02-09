@@ -9,7 +9,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PersonIcon from "@mui/icons-material/Person";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import { AdmonitionDirectiveDescriptor, MDXEditor, directivesPlugin, headingsPlugin, linkPlugin, listsPlugin, markdownShortcutPlugin, quotePlugin, thematicBreakPlugin } from "@mdxeditor/editor";
+import { AdmonitionDirectiveDescriptor, MDXEditor, directivesPlugin, headingsPlugin, imagePlugin, linkPlugin, listsPlugin, markdownShortcutPlugin, quotePlugin, thematicBreakPlugin } from "@mdxeditor/editor";
 import ReviewCard from "../components/ReviewCard";
 import { useSelector } from "react-redux";
 import { LoadingButton } from "@mui/lab";
@@ -237,6 +237,7 @@ function Review() {
                         <MDXEditor
                             readOnly={isReadOnly}
                             markdown={reviewInfo.content}
+                            className="readonly-mdx-editor"
                             plugins={[
                                 headingsPlugin(),
                                 quotePlugin(),
@@ -244,7 +245,8 @@ function Review() {
                                 thematicBreakPlugin(),
                                 linkPlugin(),
                                 directivesPlugin({ directiveDescriptors: [AdmonitionDirectiveDescriptor] }),
-                                markdownShortcutPlugin()
+                                markdownShortcutPlugin(),
+                                imagePlugin()
                             ]}
                         />
                         {isAuthenticated && canLike && 

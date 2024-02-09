@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { LeisureGroups } from "../data/LeisureGroups";
 import { TagsInput } from "react-tag-input-component";
-import { AdmonitionDirectiveDescriptor, BlockTypeSelect, BoldItalicUnderlineToggles, CreateLink, InsertAdmonition, InsertThematicBreak, ListsToggle, MDXEditor, Separator, UndoRedo, directivesPlugin, headingsPlugin, linkDialogPlugin, linkPlugin, listsPlugin, markdownShortcutPlugin, quotePlugin, thematicBreakPlugin, toolbarPlugin } from "@mdxeditor/editor";
+import { AdmonitionDirectiveDescriptor, BlockTypeSelect, BoldItalicUnderlineToggles, CreateLink, InsertAdmonition, InsertImage, InsertThematicBreak, ListsToggle, MDXEditor, Separator, UndoRedo, directivesPlugin, headingsPlugin, imagePlugin, linkDialogPlugin, linkPlugin, listsPlugin, markdownShortcutPlugin, quotePlugin, thematicBreakPlugin, toolbarPlugin } from "@mdxeditor/editor";
 import { getLeisureInfo, getReview, saveReview } from "../api";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -100,6 +100,46 @@ function EditReview() {
     };
 
     const [errorAlertOpen, setErrorAlertOpen] = useState(false);
+
+
+
+    
+
+    const uploadImage = async (image) => {
+        
+        const formData = new FormData();
+        formData.append("file", image);
+        formData.append("upload_preset", "swrdwnrx");
+
+        try {
+            const response = await fetch("https://api.cloudinary.com/v1_1/ddejfx4kd/image/upload", {
+              method: "POST",
+              body: formData,
+            });
+            
+            if (!response.ok) {
+              throw new Error("Failed to upload image");
+            }
+        
+            const responseData = await response.json();
+            return Promise.resolve(responseData.url);
+          } catch (error) {
+            console.error(error);
+            return Promise.resolve();
+          }
+
+        // fetch("https://api.cloudinary.com/v1_1/ddejfx4kd/upload", {
+        //     method: "POST",
+        //     body: image,
+        // })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         console.log(data);
+        //     })
+        //     .catch(error => {
+        //         console.error('Error:', error);
+        //     });
+    };
 
     useEffect(() => {
         if (reviewId) {
@@ -282,6 +322,8 @@ function EditReview() {
                                                         <InsertThematicBreak />
                                                         <Separator />
                                                         <CreateLink />
+                                                        <Separator />
+                                                        <InsertImage />
                                                         <Box sx={{
                                                             display: {
                                                                 xs: "block",
@@ -304,7 +346,8 @@ function EditReview() {
                                             linkPlugin(),
                                             linkDialogPlugin(),
                                             directivesPlugin({ directiveDescriptors: [AdmonitionDirectiveDescriptor] }),
-                                            markdownShortcutPlugin()
+                                            markdownShortcutPlugin(),
+                                            imagePlugin({ imageUploadHandler: uploadImage })
                                         ]}
                                     />
                                     <FormHelperText error={!!errors.content}>
