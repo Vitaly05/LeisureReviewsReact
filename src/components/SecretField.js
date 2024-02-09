@@ -24,6 +24,7 @@ function SecretField({ id, name, autoComplete, label, value, onChange, onBlur, e
                         <IconButton
                             onMouseDown={() => setShowPassword(true)}
                             onMouseUp={() => setShowPassword(false)}
+                            tabIndex="-1"
                         >
                         {showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>

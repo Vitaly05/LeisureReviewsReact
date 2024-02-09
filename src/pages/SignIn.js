@@ -8,7 +8,7 @@ import { LoadingButton } from "@mui/lab";
 import { useTranslation } from "react-i18next";
 import HomeIcon from "@mui/icons-material/Home";
 import ExternalSignIn from "../components/ExternalSignIn";
-import PasswordField from "../components/PasswordField";
+import PasswordField from "../components/SecretField";
 
 function SignIn() {
     const { t } = useTranslation();

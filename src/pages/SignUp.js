@@ -8,7 +8,7 @@ import { LoadingButton } from "@mui/lab";
 import { useTranslation } from "react-i18next";
 import HomeIcon from "@mui/icons-material/Home";
 import ExternalSignIn from "../components/ExternalSignIn";
-import SecretField from "../components/PasswordField";
+import SecretField from "../components/SecretField";
 
 function SignUp() {
     const { t } = useTranslation();
@@ -19,7 +19,7 @@ function SignUp() {
     const validationSchema = Yup.object({
         username: Yup.string().required(t("Please enter username")),
         password: Yup.string().required(t("Please enter password")),
-        confirmPassword: Yup.string().required().oneOf([Yup.ref("password")], t("Passwords don't match"))
+        confirmPassword: Yup.string().required(t("Please confirm password")).oneOf([Yup.ref("password")], t("Passwords don't match"))
     });
 
     const formik = useFormik({

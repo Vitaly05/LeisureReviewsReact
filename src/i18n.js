@@ -25,6 +25,7 @@ const resources = {
             "Confirm password": "Подтвердите пароль",
             "Please enter username": "Пожалуйста, введите имя пользователя",
             "Please enter password": "Пожалуйста, введите пароль",
+            "Please confirm password": "Пожалуйста, подтвердите пароль",
             "Passwords don't match": "Пароли не совпадают",
             "Username is already taken": "Имя пользователя занято",
             "Incorrect username or password": "Неверное имя пользователя или пароль",
