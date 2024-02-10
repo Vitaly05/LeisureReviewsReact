@@ -1,4 +1,4 @@
-import { Box, Container, Divider, FormHelperText, IconButton, Paper, TextField, Typography } from "@mui/material";
+import { Box, Container, Divider, FormControl, FormHelperText, IconButton, Paper, TextField, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
@@ -17,7 +17,13 @@ function AdditionalInfo() {
     const [searchParams] = useSearchParams();
     const returnUrl = searchParams.get("return-url");
 
-    const usernameValidationSchema = Yup.string().required(t("Please enter username"));
+    const usernameValidationSchema = Yup
+        .string()
+        .trim()
+        .required(t("Please enter username"))
+        .min(5, t("Username must be at least 5 characters"));
+
+    const [usernameFieldError, setUsernameFieldError] = useState("");
     
     const credential = useSelector(state => state.googleAuth.credential);
 
@@ -32,6 +38,7 @@ function AdditionalInfo() {
         
         try {
             await usernameValidationSchema.validate(username);
+            setUsernameFieldError("");
             setErrorMessage("");
             setIsLoading(true);
 
@@ -45,7 +52,7 @@ function AdditionalInfo() {
             }, () => setIsLoading(false));
         } catch (err) {
             if (err.name === "ValidationError") {
-                setErrorMessage(err.message);
+                setUsernameFieldError(err.message);
             }
         }
     };
@@ -75,7 +82,11 @@ function AdditionalInfo() {
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "start",
-                        gap: 3
+                        gap: 3,
+                        minWidth: {
+                            xs: 250,
+                            md: 500
+                        }
                     }}
                 >
                     <Box sx={{ 
@@ -103,12 +114,17 @@ function AdditionalInfo() {
                         </Box>
                         <Divider sx={{ width: "100%" }} />
                     </Box>
-                    <TextField
-                        fullWidth
-                        label={t("Username")}
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
+                    <FormControl fullWidth>
+                        <TextField
+                            label={t("Username")}
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            error={usernameFieldError}
+                        />
+                        <FormHelperText error>
+                            {usernameFieldError}
+                        </FormHelperText>
+                    </FormControl>
                     <Box sx={{ width: "100%" }}>
                         <LoadingButton
                             type="submit"

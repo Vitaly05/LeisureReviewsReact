@@ -96,7 +96,12 @@ const resources = {
             "Read": "Читать",
             "Sign in to rate leisure!": "Войдите, чтобы оценить!",
             "Or": "Или",
-            "Resource not found": "Ресурс не найден"
+            "Resource not found": "Ресурс не найден",
+            "Passwords must be at least 10 characters": "Пароль должен состоять не менее чем из 10 символов",
+            "Passwords must have at least one digit": "Пароль должен содержать как минимум одну цифру",
+            "Passwords must have at least one lowercase": "Пароль должен содержать хотя бы одну строчную букву",
+            "Passwords must have at least one uppercase": "Пароль должен содержать хотя бы одну заглавную букву",
+            "Username must be at least 5 characters": "Имя пользователя должно состоять не менее чем из 5 символов"
         }
     }
 };
@@ -108,7 +113,7 @@ i18n
         lng: window.localStorage.getItem("lang") ?? "en",
 
         interpolation: {
-        escapeValue: false
+            escapeValue: false
         }
 });
 

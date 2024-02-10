@@ -23,8 +23,10 @@ function SecretField({ id, name, autoComplete, label, value, onChange, onBlur, e
                     <InputAdornment position="end">
                         <IconButton
                             onMouseDown={() => setShowPassword(true)}
+                            onTouchStart={() => setShowPassword(true)}
                             onMouseUp={() => setShowPassword(false)}
-                            tabIndex="-1"
+                            onTouchEnd={() => setShowPassword(false)}
+                            tabIndex={-1}
                         >
                         {showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>

@@ -17,8 +17,19 @@ function SignUp() {
     const returnUrl = searchParams.get("return-url");
 
     const validationSchema = Yup.object({
-        username: Yup.string().required(t("Please enter username")),
-        password: Yup.string().required(t("Please enter password")),
+        username: Yup
+            .string()
+            .trim()
+            .required(t("Please enter username"))
+            .min(5, t("Username must be at least 5 characters")),
+        password: Yup
+            .string()
+            .trim()
+            .required(t("Please enter password"))
+            .min(10, t("Passwords must be at least 10 characters"))
+            .matches(/\d/g, t("Passwords must have at least one digit"))
+            .matches(/[a-z]/g, t("Passwords must have at least one lowercase"))
+            .matches(/[A-Z]/g, t("Passwords must have at least one uppercase")),
         confirmPassword: Yup.string().required(t("Please confirm password")).oneOf([Yup.ref("password")], t("Passwords don't match"))
     });
 
@@ -49,7 +60,6 @@ function SignUp() {
         <form onSubmit={formik.handleSubmit}>
             <Container
                 component="main"
-                maxWidth="sm"
                 sx={{
                     display: "flex",
                     justifyContent: "center",
@@ -64,7 +74,11 @@ function SignUp() {
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "start",
-                        gap: 3
+                        gap: 3,
+                        minWidth: {
+                            xs: 250,
+                            md: 500
+                        }
                     }}
                 >
                     <Box sx={{ 
@@ -143,8 +157,10 @@ function SignUp() {
                     </Box>
                     <Box sx={{
                         display: "flex",
+                        justifyContent: "center",
                         alignItems: "center",
-                        gap: 1
+                        gap: 1,
+                        width: "100%"
                     }}
                     >
                         <Typography variant="body2">
