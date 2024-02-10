@@ -13,6 +13,7 @@ import GoogleOneTapLogin from "./components/GoogleOneTapLogin";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import NotFound from "./pages/NotFound";
+import Footer from "./components/Footer";
 
 function App() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -31,25 +32,33 @@ function App() {
     return (
         <>
             <BgParticles />
-            <Box>
-                {showGoogleOneTapLogin && !isAuthenticated && 
-                    <GoogleOneTapLogin />
-                }
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/sign-in" element={<SignIn />} />
-                    <Route path="/sign-up" element={<SignUp />} />
-                    <Route path="/additional-info" element={<AdditionalInfo />} />
-                    <Route path="/user/:username" element={<Profile />} />
-                    <Route path="/review">
-                        <Route path=":reviewId" element={<Review />} />
-                        <Route path="new/:authorId" element={<EditReview />} />
-                        <Route path="edit/:reviewId" element={<EditReview />} />
-                    </Route>
-                    <Route path="/adminpanel" element={<AdminPanel />} />
-                    <Route path="/not-found" element={<NotFound />} />
-                    <Route path="/*" element={<NotFound />} />
-                </Routes>  
+            <Box sx={{
+                display: "flex",
+                flexDirection: "column",
+                minHeight: "100dvh"
+            }}
+            >
+                <Box sx={{ flex: 1 }}>
+                    {showGoogleOneTapLogin && !isAuthenticated && 
+                        <GoogleOneTapLogin />
+                    }
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/sign-in" element={<SignIn />} />
+                        <Route path="/sign-up" element={<SignUp />} />
+                        <Route path="/additional-info" element={<AdditionalInfo />} />
+                        <Route path="/user/:username" element={<Profile />} />
+                        <Route path="/review">
+                            <Route path=":reviewId" element={<Review />} />
+                            <Route path="new/:authorId" element={<EditReview />} />
+                            <Route path="edit/:reviewId" element={<EditReview />} />
+                        </Route>
+                        <Route path="/adminpanel" element={<AdminPanel />} />
+                        <Route path="/not-found" element={<NotFound />} />
+                        <Route path="/*" element={<NotFound />} />
+                    </Routes>
+                </Box>
+                <Footer />
             </Box>
         </>
     );
