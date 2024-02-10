@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Container, Pagination, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Pagination, Paper, Typography } from "@mui/material";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { getUsersPage, getUsersPagesCount } from "../api";
@@ -19,6 +19,7 @@ function AdminPanel() {
 
 
     useEffect(() => {
+        setIsLoading(true);
         getUsersPage(page, (data) => {
             setUsers(data);
         }, () => {
@@ -69,15 +70,23 @@ function AdminPanel() {
                     <User model={user} key={i} />
                 )}
                 {pagesCount > 1 &&
-                    <Box sx={{ display: "flex", justifyContent: "center" }}>
-                        <Pagination
+                    <Paper sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        mb: 4,
+                        mx: "auto",
+                        py: 1,
+                        width: "100%"
+                    }}
+                    >
+                        <Pagination 
                             count={pagesCount}
                             page={page}
                             onChange={(e, val) => setPage(val)}
                             color="primary"
                             shape="rounded"
                         />
-                    </Box>
+                    </Paper>
                 }
             </Box>
             
