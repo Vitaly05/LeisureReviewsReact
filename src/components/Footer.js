@@ -9,6 +9,7 @@ function Footer() {
     return (
         <Box 
             bgcolor="primary.main"
+            className="footer"
             sx={{
                 display: "flex",
                 flexDirection: "column",
