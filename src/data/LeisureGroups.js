@@ -7,7 +7,8 @@ const LeisureGroupsId = {
     game: 4,
     music: 5,
     place: 6,
-    sport: 7
+    sport: 7,
+    other: 8
 };
 
 export const LeisureGroupsNames = {
@@ -17,7 +18,8 @@ export const LeisureGroupsNames = {
     4: i18next.t("Game"),
     5: i18next.t("Music"),
     6: i18next.t("Place"),
-    7: i18next.t("Sport")
+    7: i18next.t("Sport"),
+    8: i18next.t("Other")
 };
 
 export const LeisureGroups = [
@@ -27,5 +29,6 @@ export const LeisureGroups = [
     { id: LeisureGroupsId.game, name: i18next.t("Game") },
     { id: LeisureGroupsId.music, name: i18next.t("Music") },
     { id: LeisureGroupsId.place, name: i18next.t("Place") },
-    { id: LeisureGroupsId.sport, name: i18next.t("Sport") }
+    { id: LeisureGroupsId.sport, name: i18next.t("Sport") },
+    { id: LeisureGroupsId.other, name: i18next.t("Other") }
 ];

@@ -38,6 +38,7 @@ const resources = {
             "Music": "Музыка",
             "Place": "Место",
             "Sport": "Спорт",
+            "Other": "Другое",
             "Leisure": "Произведение",
             "Review author": "Автор обзора",
             "Like button": "Поставить лайк",
