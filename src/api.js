@@ -161,6 +161,19 @@ export const getUserReviews = (username, page, sortTarget, sortType, onSuccess) 
         }).catch(defaultErrorHandler);
 };
 
+export const getReviewsPageByTags = (page, sortTarget, sortType, tags, onSuccess) => {
+    if (tags.length === 0) {
+        getReviewsPage(page, sortTarget, sortType, onSuccess);
+    } else {
+        api.get(`reviews/get-tags-page/${page}/${sortTarget}/${sortType}?tags=${tags.join("&tags=")}`)
+            .then(response => {
+                if (response.status === 200) {
+                    onSuccess(response.data);
+                }
+            }).catch(defaultErrorHandler);
+    }
+};
+
 export const getReviewPagesCount = (onSuccess) => {
     api.get("reviews/get-pages-count")
         .then(response => {
@@ -177,6 +190,19 @@ export const getUserReviewPagesCount = (username, onSuccess) => {
                 onSuccess(response.data);
             }
         }).catch(defaultErrorHandler);
+};
+
+export const getReviewPagesCountByTags = (tags, onSuccess) => {
+    if (tags.length === 0) {
+        getReviewPagesCount(onSuccess);
+    } else {
+        api.get(`reviews/get-tags-pages-count?tags=${tags.join("&tags=")}`)
+            .then(response => {
+                if (response.status === 200) {
+                    onSuccess(response.data);
+                }
+            }).catch(defaultErrorHandler);
+    }
 };
 
 export const getLeisureInfo = (leisureId, onSuccess) => {

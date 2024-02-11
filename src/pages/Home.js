@@ -1,11 +1,12 @@
-import { Box, Button, Container, Pagination, Paper } from "@mui/material";
+import { Badge, Box, Button, Container, Pagination, Paper } from "@mui/material";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
-import { getReviewPagesCount, getReviewsPage } from "../api";
+import { getReviewPagesCount, getReviewPagesCountByTags, getReviewsPageByTags } from "../api";
 import { SortTarget, SortType } from "../data/SortParams";
 import ReviewCardsList from "../components/ReviewCardsList";
 import TagsCloud from "../components/TagsCloud";
 import { useTranslation } from "react-i18next";
+import TagsFilteringDialog from "../components/TagsFilteringDialog";
 
 function Home() {
     const { t } = useTranslation();
@@ -13,19 +14,37 @@ function Home() {
     const [pagesCount, setPagesCount] = useState(0);
     const [sortTarget, setSortTarget] = useState(SortTarget.date);
     const [page, setPage] = useState(1);
+    const [tags, setTags] = useState([]);
 
     const [reviewCards, setReviewCards] = useState([]);
     const [isReviewCardsLoading, setIsReviewCardsLoading] = useState(true);
 
     const [isTagsCloudOpen, setIsTagsCloudOpen] = useState(false);
 
+    const [tagFiltersCount, setTagFiltersCount] = useState(0);
+    const [isTagsFilteringOpen, setIsTagsFilteringOpen] = useState(false);
+
+    const applyTagsFilteringHandler = (tags) => {
+        setIsTagsFilteringOpen(false);
+        getReviewPagesCountByTags(tags, (count) => {
+            
+            setPagesCount(count);
+            setPage(1);
+            setTags(tags);
+        });
+    };
+
+    useEffect(() => {
+        setTagFiltersCount(tags.length);
+    }, [tags]);
+
     useEffect(() => {
         setIsReviewCardsLoading(true);
-        getReviewsPage(page, sortTarget, SortType.descending, (cards) => {
+        getReviewsPageByTags(page, sortTarget, SortType.descending, tags, (cards) => {
             setReviewCards(cards);
             setIsReviewCardsLoading(false);
         });
-    }, [page, sortTarget]);
+    }, [page, sortTarget, tags]);
 
     useEffect(() => {
         getReviewPagesCount((count) => {
@@ -59,16 +78,30 @@ function Home() {
                         }
                     }}
                 >
-                    <Button
-                        variant="text"
-                        size="medium"
-                        sx={{
-                            textTransform: "none"
-                        }}
-                        onClick={() => setIsTagsCloudOpen(true)}
+                    <Box sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 2
+                    }}
                     >
-                        {t("Tags Cloud")}
-                    </Button>
+                        <Button
+                            variant="text"
+                            size="medium"
+                            onClick={() => setIsTagsCloudOpen(true)}
+                        >
+                            {t("Tags Cloud")}
+                        </Button>
+                        <Badge badgeContent={tagFiltersCount} color="secondary">
+                            <Button
+                                variant="text"
+                                size="medium"
+                                onClick={() => setIsTagsFilteringOpen(true)}
+                            >
+                                {t("Tags filtering")}
+                            </Button>
+                        </Badge>
+                    </Box>
                     <Box
                         sx={{
                             display: "flex",
@@ -143,6 +176,12 @@ function Home() {
             </Container>
             
             <TagsCloud open={isTagsCloudOpen} onClose={() => setIsTagsCloudOpen(false)} />
+            <TagsFilteringDialog 
+                initValues={tags}
+                open={isTagsFilteringOpen} 
+                onClose={() => setIsTagsFilteringOpen(false)} 
+                onApply={applyTagsFilteringHandler}
+            />
         </>
     );
 }

@@ -101,7 +101,11 @@ const resources = {
             "Passwords must have at least one digit": "Пароль должен содержать как минимум одну цифру",
             "Passwords must have at least one lowercase": "Пароль должен содержать хотя бы одну строчную букву",
             "Passwords must have at least one uppercase": "Пароль должен содержать хотя бы одну заглавную букву",
-            "Username must be at least 5 characters": "Имя пользователя должно состоять не менее чем из 5 символов"
+            "Username must be at least 5 characters": "Имя пользователя должно состоять не менее чем из 5 символов",
+            "Tags filtering": "Фильтр по тегам",
+            "Max tags count is {{maxCount}}": "Максимальное количество тегов - {{maxCount}}",
+            "Apply": "Применить",
+            "Reset": "Сбросить"
         }
     }
 };
