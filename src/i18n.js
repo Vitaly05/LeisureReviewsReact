@@ -55,7 +55,7 @@ const resources = {
             "Rate": "Рейтинг",
             "Likes": "Лайки",
             "Latest Reviews": "Последние обзоры",
-            "Top-Rated Reviews": "Лучшие обзоры",
+            "Top Reviews": "Лучшие обзоры",
             "Main Info": "Основная информация",
             "Content": "Контент",
             "Title": "Название",

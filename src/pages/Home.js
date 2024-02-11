@@ -132,10 +132,10 @@ function Home() {
                             sx={{
                                 width: 200
                             }}
-                            disabled={sortTarget === SortTarget.rate}
-                            onClick={() => setSortTarget(SortTarget.rate)}
+                            disabled={sortTarget === SortTarget.likes}
+                            onClick={() => setSortTarget(SortTarget.likes)}
                         >
-                            {t("Top-Rated Reviews")}
+                            {t("Top Reviews")}
                         </Button>
                     </Box>
                 </Paper>
