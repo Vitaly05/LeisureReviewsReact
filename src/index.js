@@ -35,9 +35,11 @@ root.render(
         <Provider store={store}>
             <GoogleOAuthProvider clientId={googleClientId}>
                 <ThemeProvider theme={theme}>
-                    <BrowserRouter>
-                        <App />
-                    </BrowserRouter>
+                    <ThemeProvider theme={theme}>
+                        <BrowserRouter>
+                            <App />
+                        </BrowserRouter>
+                    </ThemeProvider>
                 </ThemeProvider>
             </GoogleOAuthProvider>
         </Provider>

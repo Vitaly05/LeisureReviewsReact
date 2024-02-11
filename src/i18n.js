@@ -105,7 +105,8 @@ const resources = {
             "Tags filtering": "Фильтр по тегам",
             "Max tags count is {{maxCount}}": "Максимальное количество тегов - {{maxCount}}",
             "Apply": "Применить",
-            "Reset": "Сбросить"
+            "Reset": "Сбросить",
+            "The number of reviews that use this tag: {{count}}. Click to see them": "Количество обзоров, в которых использован этот тег: {{count}}. Нажмите чтобы посмотреть их"
         }
     }
 };

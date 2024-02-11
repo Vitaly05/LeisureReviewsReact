@@ -175,7 +175,14 @@ function Home() {
                 }
             </Container>
             
-            <TagsCloud open={isTagsCloudOpen} onClose={() => setIsTagsCloudOpen(false)} />
+            <TagsCloud 
+                open={isTagsCloudOpen} 
+                onClose={() => setIsTagsCloudOpen(false)} 
+                onTagClick={(tag) => {
+                    applyTagsFilteringHandler([ tag ]);
+                    setIsTagsCloudOpen(false);
+                }}
+            />
             <TagsFilteringDialog 
                 initValues={tags}
                 open={isTagsFilteringOpen} 
