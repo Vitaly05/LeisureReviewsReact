@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import HomeIcon from "@mui/icons-material/Home";
 import ExternalSignIn from "../components/ExternalSignIn";
 import SecretField from "../components/SecretField";
+import BasicTooltip from "../components/BasicTooltip";
 
 function SignUp() {
     const { t } = useTranslation();
@@ -100,9 +101,11 @@ function SignUp() {
                             >
                                 {t("Sign Up")}
                             </Typography>
-                            <IconButton onClick={() => navigate("/")}>
-                                <HomeIcon />
-                            </IconButton>
+                            <BasicTooltip title={t("Back to home")}>
+                                <IconButton onClick={() => navigate("/")}>
+                                    <HomeIcon />
+                                </IconButton>
+                            </BasicTooltip>
                         </Box>
                         <Divider sx={{ width: "100%" }} />
                     </Box>

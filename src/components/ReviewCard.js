@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { getLeisureInfo } from "../api";
 import { LeisureGroupsNames } from "../data/LeisureGroups";
 import { useTranslation } from "react-i18next";
+import BasicTooltip from "./BasicTooltip";
 
 function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
     const { t } = useTranslation();
@@ -95,18 +96,19 @@ function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
                                 ml: 2
                             }} 
                             />
-                        :
-                        <>
-                            <Typography variant="body2" sx={{ ml: "4px" }}>
-                                <b>{leisureInfo.name}</b>
-                            </Typography>
-                            <IconWithText
-                                icon={<StarOutlineIcon />}
-                                text={`${leisureInfo.averageRate === 0 ? "-" : leisureInfo.averageRate}/5`}
-                                sx={{ ml: 2 }}
-                            />
-                        </>
-                        }
+                        : (
+                            <>
+                                <Typography variant="body2" sx={{ ml: "4px" }}>
+                                    <b>{leisureInfo.name}</b>
+                                </Typography>
+                                <IconWithText
+                                    icon={<StarOutlineIcon />}
+                                    text={`${leisureInfo.averageRate === 0 ? "-" : leisureInfo.averageRate}/5`}
+                                    title={t("Leisure rate")}
+                                    sx={{ ml: 2 }}
+                                />
+                            </>
+                        )}
                     </Box>
                     <Box sx={{
                         display: "flex",
@@ -132,10 +134,12 @@ function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
                         <IconWithText
                             icon={<SentimentSatisfiedAltIcon />}
                             text={`${reviewCardModel.authorRate}/10`}
+                            title={t("Author rate")}
                         />
                         <IconWithText
                             icon={<FavoriteBorderIcon />}
                             text={reviewCardModel.likesCount}
+                            title={t("Review likes count")}
                         />
                     </Box>
                 </Box>
@@ -156,13 +160,17 @@ function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
                             <Button variant="contained" onClick={() => window.location.href = `/review/edit/${reviewCardModel.id}`}>
                                 {t("Edit")}
                             </Button>
-                            <IconButton onClick={handleReadButtonClick}>
-                                <VisibilityIcon />
-                            </IconButton>
+                            <BasicTooltip title={t("View review")}>
+                                <IconButton onClick={handleReadButtonClick}>
+                                    <VisibilityIcon />
+                                </IconButton>
+                            </BasicTooltip>
                         </Box>
-                        <IconButton color="error" onClick={handleDeleteButtonClick}>
-                            <DeleteIcon />
-                        </IconButton>
+                        <BasicTooltip title={t("Delete review")}>
+                            <IconButton color="error" onClick={handleDeleteButtonClick}>
+                                <DeleteIcon />
+                            </IconButton>
+                        </BasicTooltip>
                     </Box>
                 ) : (
                     <Button 

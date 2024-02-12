@@ -126,9 +126,8 @@ function Profile() {
                 </Box>
                 <IconWithText
                     icon={<FavoriteBorderIcon />}
-                    text={
-                        userInfo.isLoading ? <Skeleton width={20} /> : userInfo.likesCount
-                    }
+                    text={userInfo.isLoading ? <Skeleton width={20} /> : userInfo.likesCount}
+                    title={t("User likes count")}
                 />
             </Paper>
         );

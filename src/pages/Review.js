@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { LoadingButton } from "@mui/lab";
 import { useTranslation } from "react-i18next";
 import Comments from "../components/Comments";
+import BasicTooltip from "../components/BasicTooltip";
 
 function Review() {
     const { t } = useTranslation();
@@ -147,6 +148,7 @@ function Review() {
                             <IconWithText
                                 text={reviewInfo.likesCount}
                                 icon={<FavoriteBorderIcon />}
+                                title={t("Review likes count")}
                             />
                         </Box>
                         <Box sx={{
@@ -186,9 +188,11 @@ function Review() {
                                     value={userRating}
                                     onChange={ratingClickHandler}
                                 />
-                                <Typography>
-                                    ({leisureInfo.averageRate === 0 ? "-" : leisureInfo.averageRate}/5)
-                                </Typography>
+                                <BasicTooltip title={t("Leisure rate")}>
+                                    <Typography>
+                                        ({leisureInfo.averageRate === 0 ? "-" : leisureInfo.averageRate}/5)
+                                    </Typography>
+                                </BasicTooltip>
                             </Box>
                         </Box>
                         {/* USER */}
@@ -227,11 +231,13 @@ function Review() {
                                 <IconWithText
                                     text={authorInfo.likesCount}
                                     icon={<FavoriteBorderIcon />}
+                                    title={t("User likes count")}
                                 />
                             </Box>
                             <IconWithText
                                 text={`${reviewInfo.authorRate}/10`}
                                 icon={<SentimentSatisfiedAltIcon />}
+                                title={t("Author rate")}
                             />
                         </Paper>
                         <MDXEditor

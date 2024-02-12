@@ -66,6 +66,7 @@ function User({ model }) {
                 <IconWithText
                     icon={<FavoriteBorderIcon />}
                     text={model.likesCount}
+                    title={t("User likes count")}
                 />
             </Box>
             <Box sx={{

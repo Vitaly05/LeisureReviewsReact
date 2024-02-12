@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import SearchPanel from "./SearchPanel";
 import i18n from "../i18n";
 import { t } from "i18next";
+import BasicTooltip from "./BasicTooltip";
 
 function Header() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -206,22 +207,26 @@ function Header() {
                             }}
                         >
                             <Box sx={{ mr: 3 }}>
-                                <IconButton
-                                    size="large"
-                                    color="inherit"
-                                    aria-label="search"
-                                    onClick={() => setIsSearchDialogOpen(true)}
-                                >
-                                    <SearchIcon />
-                                </IconButton>
-                                <Button
-                                    onClick={() => toggleLanguage()}
-                                    variant="contained"
-                                    color="secondary"
-                                    startIcon={<LanguageIcon />}
-                                >
-                                    {i18n.language === "en" ? "ru" : "en"}
-                                </Button>
+                                <BasicTooltip title={t("Search")}>
+                                    <IconButton
+                                        size="large"
+                                        color="inherit"
+                                        aria-label="search"
+                                        onClick={() => setIsSearchDialogOpen(true)}
+                                    >
+                                        <SearchIcon />
+                                    </IconButton>
+                                </BasicTooltip>
+                                <BasicTooltip title={t("Change language")}>
+                                    <Button
+                                        onClick={() => toggleLanguage()}
+                                        variant="contained"
+                                        color="secondary"
+                                        startIcon={<LanguageIcon />}
+                                    >
+                                        {i18n.language === "en" ? "ru" : "en"}
+                                    </Button>
+                                </BasicTooltip>
                             </Box>
                             {isAuthenticated ?
                             <>

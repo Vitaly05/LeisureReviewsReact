@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import HomeIcon from "@mui/icons-material/Home";
 import ExternalSignIn from "../components/ExternalSignIn";
 import PasswordField from "../components/SecretField";
+import BasicTooltip from "../components/BasicTooltip";
 
 function SignIn() {
     const { t } = useTranslation();
@@ -101,9 +102,11 @@ function SignIn() {
                             >
                                 {t("Sign In")}
                             </Typography>
-                            <IconButton onClick={() => navigate("/")}>
-                                <HomeIcon />
-                            </IconButton>
+                            <BasicTooltip title={t("Back to home")}>
+                                <IconButton onClick={() => navigate("/")}>
+                                    <HomeIcon />
+                                </IconButton>
+                            </BasicTooltip>
                         </Box>
                         <Divider sx={{ width: "100%" }} />
                     </Box>

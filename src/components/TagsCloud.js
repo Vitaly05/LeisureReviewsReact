@@ -1,10 +1,10 @@
-import { Button, Dialog, DialogContent, DialogTitle, IconButton, Tooltip, Typography, Zoom, tooltipClasses } from "@mui/material";
+import { Button, Dialog, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getTagsWeights } from "../api";
 import { TagCloud } from "react-tagcloud";
 import CloseIcon from "@mui/icons-material/Close";
 import { useTranslation } from "react-i18next";
-import styled from "styled-components";
+import BasicTooltip from "./BasicTooltip";
 
 function TagsCloud({ open, onClose, onTagClick }) {
     const { t } = useTranslation();
@@ -24,26 +24,9 @@ function TagsCloud({ open, onClose, onTagClick }) {
         });
     }, []);
 
-    const TagTooltip = styled(({ className, ...props }) => (
-        <Tooltip {...props} classes={{ popper: className }} />
-    ))(() => ({
-        [`& .${tooltipClasses.arrow}`]: {
-            color: "#161B1D",
-        },
-        [`& .${tooltipClasses.tooltip}`]: {
-            backgroundColor: "#161B1D",
-            maxWidth: 200
-        },
-    }));
-
     const tagRenderer = (tag, size, color) => {
         return (
-            <TagTooltip 
-                title={t("The number of reviews that use this tag: {{count}}. Click to see them", { count: tag.count })} 
-                TransitionComponent={Zoom}
-                placement="top" 
-                arrow
-            >
+            <BasicTooltip title={t("The number of reviews that use this tag: {{count}}. Click to see them", { count: tag.count })} >
                 <Button 
                     size="small"
                     sx={{
@@ -59,7 +42,7 @@ function TagsCloud({ open, onClose, onTagClick }) {
                         {tag.value}
                     </Typography>
                 </Button>
-            </TagTooltip>
+            </BasicTooltip>
         );
     };
 

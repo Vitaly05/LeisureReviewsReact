@@ -1,21 +1,24 @@
 import { Box, Typography } from "@mui/material";
+import BasicTooltip from "./BasicTooltip";
 
-function IconWithText({ icon, text, sx }) {
+function IconWithText({ icon, text, title, sx }) {
     return (
-        <Box sx={{
-            ...sx,
-            display: "flex",
-            alignItems: "center"
-        }}
-        >
-            {icon}
-            <Typography 
-                variant="body2"
-                sx={{ ml: "2px" }}
+        <BasicTooltip title={title}>
+            <Box sx={{
+                ...sx,
+                display: "flex",
+                alignItems: "center"
+            }}
             >
-                {text}
-            </Typography>
-        </Box>
+                {icon}
+                <Typography 
+                    variant="body2"
+                    sx={{ ml: "2px" }}
+                >
+                    {text}
+                </Typography>
+            </Box>
+        </BasicTooltip>
     );
 }
 

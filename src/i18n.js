@@ -106,7 +106,19 @@ const resources = {
             "Max tags count is {{maxCount}}": "Максимальное количество тегов - {{maxCount}}",
             "Apply": "Применить",
             "Reset": "Сбросить",
-            "The number of reviews that use this tag: {{count}}. Click to see them": "Количество обзоров, в которых использован этот тег: {{count}}. Нажмите чтобы посмотреть их"
+            "The number of reviews that use this tag: {{count}}. Click to see them": "Количество обзоров, в которых использован этот тег: {{count}}. Нажмите чтобы посмотреть их",
+            "Change language": "Поменять язык",
+            "My GitHub": "Мой GitHub",
+            "My LinkedIn": "Мой LinkedIn",
+            "My Telegram": "Мой Telegram",
+            "My Email": "Моя почта",
+            "Leisure rate": "Рейтинг произведения",
+            "Author rate": "Оценка от автора",
+            "Review likes count": "Количество лайков обзора",
+            "User likes count": "Количество лайков пользователя",
+            "Back to home": "Вернуться на главную",
+            "Delete review": "Удалить обзор",
+            "View review": "Посмотреть обзор"
         }
     }
 };

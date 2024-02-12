@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { googleSignUp } from "../api";
 import { clearCredential } from "../redux/slices/googleAuthSlice";
 import * as Yup from "yup";
+import BasicTooltip from "../components/BasicTooltip";
 
 function AdditionalInfo() {
     const { t } = useTranslation();
@@ -108,9 +109,11 @@ function AdditionalInfo() {
                             >
                                 {t("Additional Info")}
                             </Typography>
-                            <IconButton onClick={() => navigate("/")}>
-                                <HomeIcon />
-                            </IconButton>
+                            <BasicTooltip title={t("Back to home")}>
+                                <IconButton onClick={() => navigate("/")}>
+                                    <HomeIcon />
+                                </IconButton>
+                            </BasicTooltip>
                         </Box>
                         <Divider sx={{ width: "100%" }} />
                     </Box>
