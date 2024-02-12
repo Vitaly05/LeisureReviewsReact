@@ -40,7 +40,7 @@ function SearchPanel({ open, onClose }) {
                         hitComponent={CustomSearchHit} 
                         showPrevious={false}
                         classNames={{
-                            loadMore: "css-lll1vm-MuiButtonBase-root-MuiButton-root width-100"
+                            loadMore: "default-button width-100"
                         }}
                     />
                 </DialogContent>

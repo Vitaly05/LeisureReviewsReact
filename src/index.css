@@ -5,9 +5,12 @@
 }
 
 :root {
+    --primary-color: #161B1D;
+    --primary-text: white;
+    --primary-color-hover: rgb(15, 18, 20);
     --blockquoteColor: #cdced6;
     --mdxeditorContentBorderColor: rgb(240, 240, 243);
-    --highlightedColor: #003dff;
+    --secondary-color: #FF5F00;
     --shadowColor: black;
 }
 
@@ -50,7 +53,7 @@
 
 .highlighted-search-hit {
     background-color: transparent;
-    color: var(--highlightedColor);
+    color: var(--secondary-color);
 }
 .ais-InfiniteHits-item {
     list-style: none;
@@ -62,6 +65,28 @@
 
 .width-100 {
     width: 100%;
+}
+
+.default-button {
+    background-color: var(--primary-color);
+    color: var(--primary-text);
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    padding: 6px;
+
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.75;
+    letter-spacing: 0.02857em;
+    text-transform: uppercase;
+
+    transition: background-color 250ms;
+}
+.default-button:hover {
+    background-color: var(--primary-color-hover);
+    cursor: pointer;
 }
 
 .footer {
