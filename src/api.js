@@ -236,6 +236,19 @@ export const getUserInfoById = (userId, onSuccess) => {
         }).catch(defaultErrorHandler);
 };
 
+export const getUserNameById = (userId, onSuccess, onError) => {
+    api.get(`users/get-username/${userId}`)
+        .then(response => {
+            if (response.status === 200) {
+                onSuccess(response.data);
+            } 
+        }).catch(error => {
+            if (error.name === "AxiosError" && error.response.status === 404) {
+                onError();
+            }
+        });
+};
+
 export const saveReview = (reviewInfo, onSuccess, onError) => {
     api.post("/reviews/save-review", reviewInfo).then(response => {
         if (response.status === 200) {

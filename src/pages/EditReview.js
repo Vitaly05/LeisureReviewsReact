@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { LeisureGroups } from "../data/LeisureGroups";
 import { TagsInput } from "react-tag-input-component";
 import { AdmonitionDirectiveDescriptor, BlockTypeSelect, BoldItalicUnderlineToggles, CreateLink, InsertAdmonition, InsertImage, InsertThematicBreak, ListsToggle, MDXEditor, Separator, UndoRedo, directivesPlugin, headingsPlugin, imagePlugin, linkDialogPlugin, linkPlugin, listsPlugin, markdownShortcutPlugin, quotePlugin, thematicBreakPlugin, toolbarPlugin } from "@mdxeditor/editor";
-import { getLeisureInfo, getReview, saveReview } from "../api";
+import { getLeisureInfo, getReview, getUserNameById, saveReview } from "../api";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -99,14 +99,15 @@ function EditReview() {
         window.location.href = `/review/edit/${reviewInfo.id}`;
     };
 
+    const toProfileClickHandler = () => {
+        getUserNameById(reviewInfo.authorId, username => {
+            window.location.href = `/user/${username}`;
+        }, () => window.location.href = "/");
+    };
+
     const [errorAlertOpen, setErrorAlertOpen] = useState(false);
 
-
-
-    
-
     const uploadImage = async (image) => {
-        
         const formData = new FormData();
         formData.append("file", image);
         formData.append("upload_preset", "swrdwnrx");
@@ -127,18 +128,6 @@ function EditReview() {
             console.error(error);
             return Promise.resolve();
           }
-
-        // fetch("https://api.cloudinary.com/v1_1/ddejfx4kd/upload", {
-        //     method: "POST",
-        //     body: image,
-        // })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         console.log(data);
-        //     })
-        //     .catch(error => {
-        //         console.error('Error:', error);
-        //     });
     };
 
     useEffect(() => {
@@ -385,11 +374,37 @@ function EditReview() {
                 </Paper>
             </Container>
 
-            <Dialog onClose={closeSuccessDialog} open={successDialogOpen}>
+            <Dialog 
+                onClose={closeSuccessDialog} 
+                open={successDialogOpen}
+                fullWidth
+                maxWidth="sm"
+            >
                 <DialogTitle>{t("The review has been successfully saved!")}</DialogTitle>
-                <DialogActions>
-                    <Button href="/" variant="contained">{t("Go to home")}</Button>
-                    <Button onClick={closeSuccessDialog} variant="outlined">{t("Continue editing")}</Button>
+                <DialogActions sx={{
+                    display: "flex",
+                    flexDirection: {
+                        xs: "column",
+                        sm: "row"
+                    },
+                    gap: 2,
+                    alignItems: "stretch"
+                }}
+                >
+                    <Button 
+                        onClick={closeSuccessDialog}
+                        sx={{ 
+                            mr: {
+                                xs: 0,
+                                sm: "auto"
+                            }
+                        }}
+                    >
+                        {t("Continue editing")}
+                    </Button>
+                    <Button onClick={() => window.location.href = "/"} variant="contained">{t("Go to home")}</Button>
+                    <Button onClick={toProfileClickHandler} variant="contained">{t("Back to profile")}</Button>
+                    
                 </DialogActions>
             </Dialog>
 

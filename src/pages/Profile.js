@@ -10,11 +10,14 @@ import SortPanel from "../components/SortPanel";
 import { checkAccessToCreateReview, getUserInfo, getUserReviewPagesCount, getUserReviews } from "../api";
 import ReviewCardsList from "../components/ReviewCardsList";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 function Profile() {
     const { t } = useTranslation();
 
     const { username } = useParams();
+
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
     const [canCreateReview, setCanCreateReview] = useState(false);
 
@@ -61,6 +64,18 @@ function Profile() {
     };
 
     useEffect(() => {
+        if (isAuthenticated && userInfo.id) {
+            checkAccessToCreateReview(userInfo.id, () => {
+                setCanCreateReview(true);
+            }, () => {
+                setCanCreateReview(false);
+            });
+        } else {
+            setCanCreateReview(false);
+        }
+    }, [isAuthenticated]);
+
+    useEffect(() => {
         getReviewsList();
     }, [page, sortInfo]);
 
@@ -70,7 +85,7 @@ function Profile() {
         }, () => {
             setCanCreateReview(false);
         });
-    }, [userInfo]);
+    }, [userInfo.id]);
 
     useEffect(() => {
         if (!username) {

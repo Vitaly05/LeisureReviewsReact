@@ -118,7 +118,8 @@ const resources = {
             "User likes count": "Количество лайков пользователя",
             "Back to home": "Вернуться на главную",
             "Delete review": "Удалить обзор",
-            "View review": "Посмотреть обзор"
+            "View review": "Посмотреть обзор",
+            "Back to profile": "Профиль"
         }
     }
 };
