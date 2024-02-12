@@ -111,6 +111,7 @@ function SignUp() {
                     </Box>
                     <TextField
                         fullWidth
+                        autoFocus
                         autoComplete="username"
                         label={t("Username")}
                         id="username"

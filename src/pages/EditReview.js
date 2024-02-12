@@ -195,6 +195,7 @@ function EditReview() {
                                 >
                                     <FormControl fullWidth>
                                         <TextField
+                                            autoFocus
                                             autoComplete="off"
                                             label={t("Title")}
                                             id="title"

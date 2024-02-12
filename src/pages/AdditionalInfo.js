@@ -119,6 +119,7 @@ function AdditionalInfo() {
                     </Box>
                     <FormControl fullWidth>
                         <TextField
+                            autoFocus
                             label={t("Username")}
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
