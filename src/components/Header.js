@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, Divider, Drawer, FormControl, IconButton, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Select, Toolbar, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import LanguageIcon from "@mui/icons-material/Language";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -29,6 +29,8 @@ function Header() {
 
     const [isSearchDialogOpen, setIsSearchDialogOpen] = useState(false);
 
+    const [language, setLanguage] = useState(i18n.language);
+
     const toggleDrawer = () => {
         setDrawerOpen(!drawerOpen);
     };
@@ -46,8 +48,9 @@ function Header() {
         window.location.href = `/review/new/${currentUser.id}`;
     };
 
-    const toggleLanguage = () => {
-        const newLanguage = i18n.language === "en" ? "ru" : "en";
+    const languageChangeHandler = (e) => {
+        const newLanguage = e.target.value;
+        setLanguage(newLanguage);
         i18n.changeLanguage(newLanguage);
         window.localStorage.setItem("lang", newLanguage);
     };
@@ -167,14 +170,25 @@ function Header() {
                         </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
-                        <ListItemButton onClick={() => toggleLanguage()}>
-                            <ListItemIcon>
-                                <LanguageIcon />
-                            </ListItemIcon>
-                            <ListItemText>
-                                {i18n.language === "en" ? "Russian" : "English"}
-                            </ListItemText>
-                        </ListItemButton>
+                        <FormControl 
+                            fullWidth
+                            sx={{ m: 2 }}
+                        >
+                            <InputLabel id="language-select-label">{t("Language")}</InputLabel>
+                            <Select
+                                labelId="language-select-label"
+                                label={t("Language")}
+                                value={language}
+                                onChange={languageChangeHandler}
+                                IconComponent={() =>
+                                    <LanguageIcon sx={{ mr: 1 }} />
+                                }
+                            >
+                                <MenuItem value="en">En</MenuItem>
+                                <MenuItem value="ru">Рус</MenuItem>
+                                <MenuItem value="be">Бел</MenuItem>
+                            </Select>
+                        </FormControl>
                     </ListItem>
             </List>
         );
@@ -206,7 +220,13 @@ function Header() {
                                 alignItems: "center"
                             }}
                         >
-                            <Box sx={{ mr: 3 }}>
+                            <Box sx={{ 
+                                mr: 3,
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1
+                            }}
+                            >
                                 <BasicTooltip title={t("Search")}>
                                     <IconButton
                                         size="large"
@@ -217,16 +237,45 @@ function Header() {
                                         <SearchIcon />
                                     </IconButton>
                                 </BasicTooltip>
-                                <BasicTooltip title={t("Change language")}>
-                                    <Button
-                                        onClick={() => toggleLanguage()}
-                                        variant="contained"
-                                        color="secondary"
-                                        startIcon={<LanguageIcon />}
+                                <FormControl>
+                                    <InputLabel 
+                                        id="language-select-label"
+                                        sx={{
+                                            color: theme => theme.palette.primary.contrastText,
+                                            "&.Mui-focused": {
+                                                color: theme => theme.palette.primary.contrastText,
+                                            }
+                                        }}
                                     >
-                                        {i18n.language === "en" ? "ru" : "en"}
-                                    </Button>
-                                </BasicTooltip>
+                                        {t("Language")}
+                                    </InputLabel>
+                                    <Select
+                                        labelId="language-select-label"
+                                        label={t("Language")}
+                                        value={language}
+                                        size="small"
+                                        onChange={languageChangeHandler}
+                                        IconComponent={() =>
+                                            <LanguageIcon sx={{ mr: 1 }} />
+                                        }
+                                        sx={{
+                                            backgroundColor: theme => theme.palette.secondary.main,
+                                            color: theme => theme.palette.primary.contrastText,
+                                            "&.Mui-focused": {
+                                                borderStyle: "solid",
+                                                borderWidth: 1,
+                                                borderColor: theme => theme.palette.secondary.main,
+                                            },
+                                            "& .MuiOutlinedInput-notchedOutline": {
+                                                borderColor: theme => theme.palette.secondary.main,
+                                            }
+                                        }}
+                                    >
+                                        <MenuItem value="en">En</MenuItem>
+                                        <MenuItem value="ru">Рус</MenuItem>
+                                        <MenuItem value="be">Бел</MenuItem>
+                                    </Select>
+                                </FormControl>
                             </Box>
                             {isAuthenticated ?
                             <>
