@@ -42,13 +42,52 @@
     padding-left: 1em;
 }
 .readonly-mdx-editor div[data-editor-block-type="image"] {
-    display: block;
-    width: fit-content;
+    display: flex;
+    width: 100%;
+    height: auto;
+}
+.readonly-mdx-editor div[data-editor-block-type="image"] > div {
     margin-left: auto;
     margin-right: auto;
 }
+.readonly-mdx-editor div[data-editor-block-type="image"] img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+}
 .readonly-mdx-editor button[title="Edit image"] {
     display: none;
+}
+.readonly-mdx-editor p,
+.readonly-mdx-editor blockquote,
+.readonly-mdx-editor li {
+    font-size: 1.25rem;
+    line-height: 2rem;
+}
+.readonly-mdx-editor h6 {
+    font-size: 1.4rem;
+}
+.readonly-mdx-editor h5 {
+    font-size: 1.7rem;
+}
+.readonly-mdx-editor h4 {
+    font-size: 2rem;
+}
+.readonly-mdx-editor h3 {
+    font-size: 3rem;
+    margin: 1rem 0;
+}
+.readonly-mdx-editor h2 {
+    font-size: 4rem;
+    margin: 1rem 0;
+}
+.readonly-mdx-editor h1 {
+    font-size: 5rem;
+    margin: 1rem 0;
+}
+.readonly-mdx-editor hr {
+    margin: 2rem 0;
+    border-color: var(--primary-color);
 }
 
 .highlighted-search-hit {
