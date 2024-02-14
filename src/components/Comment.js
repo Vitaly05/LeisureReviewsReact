@@ -24,14 +24,14 @@ function Comment({ model, onRate }) {
     const [currentUserRate, setCurrentUserRate] = useState(model.currentUserRateStatus);
 
     const likeClickHandler = () => {
-        if (model.currentUserRateStatus === true || isLoading)
+        if (model.currentUserRateStatus === true || !isAuthenticated || isLoading)
             return;
         onRate(true, model.id);
         setCurrentUserRate(true);
     };
 
     const dislikeClickHandler = () => {
-        if (model.currentUserRateStatus === false || isLoading)
+        if (model.currentUserRateStatus === false || !isAuthenticated || isLoading)
             return;
         onRate(false, model.id);
         setCurrentUserRate(false);

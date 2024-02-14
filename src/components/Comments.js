@@ -16,12 +16,14 @@ function Comments({ sx, reviewId }) {
 
     const [connection, setConnection] = useState(null);
 
-    const onSendComment = async (commentText) => {
-        await connection.invoke("send", commentText, reviewId);
+    const onSendComment = (commentText) => {
+        connection.invoke("send", commentText, reviewId)
+            .catch(err => console.error(err));
     };
 
-    const onRateComment = async (isPositive, commentId) => {
-        await connection.invoke("rate", isPositive, commentId);
+    const onRateComment = (isPositive, commentId) => {
+        connection.invoke("rate", isPositive, commentId)
+            .catch(err => console.error(err));
     };
 
     useEffect(() => {
