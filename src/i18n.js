@@ -119,7 +119,9 @@ const resources = {
             "Back to home": "Вернуться на главную",
             "Delete review": "Удалить обзор",
             "View review": "Посмотреть обзор",
-            "Back to profile": "Профиль"
+            "Back to profile": "Профиль",
+            "Like comment": "Поставить лайк комментарию",
+            "Dislike comment": "Поставить дизлайк комментарию",
         }
     }
 };

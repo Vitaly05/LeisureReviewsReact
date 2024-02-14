@@ -367,6 +367,15 @@ export const getTagsWeights = (onSuccess) => {
     }).catch(defaultErrorHandler);
 };
 
+export const getCurrentUserCommentRate = (commentId, onSuccess, onFinally) => {
+    api.get(`comments/get-current-user-rate?commentId=${commentId}`)
+        .then(response => {
+            if (response.status === 200) {
+                onSuccess(response.data);
+            }
+        }).catch(defaultErrorHandler).finally(onFinally);
+};
+
 
 const defaultErrorHandler = (error) => {
     if (error.name === "AxiosError") {

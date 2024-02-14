@@ -12,7 +12,7 @@ function ExternalSignIn({ returnUrl }) {
     const onGoogleSignInSuccess = async (credentialResponse) => {
         await dispatch(setCredential(credentialResponse.credential));
         googleSignIn(credentialResponse.credential, () => {
-            navigate(returnUrl || "/");
+            window.location.href = returnUrl || "/";
         }, () => {
             navigate(`/additional-info?return-url=${returnUrl}`);
         });

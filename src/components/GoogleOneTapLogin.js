@@ -11,7 +11,7 @@ function GoogleOneTapLogin() {
     const onGoogleSignInSuccess = async (credentialResponse) => {
         await dispatch(setCredential(credentialResponse.credential));
         googleSignIn(credentialResponse.credential, () => {
-            console.log("Successful login by Google");
+            location.reload();
         }, () => {
             navigate(`/additional-info?return-url=${window.location.pathname}`);
         });

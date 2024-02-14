@@ -20,6 +20,10 @@ function Comments({ sx, reviewId }) {
         await connection.invoke("send", commentText, reviewId);
     };
 
+    const onRateComment = async (isPositive, commentId) => {
+        await connection.invoke("rate", isPositive, commentId);
+    };
+
     useEffect(() => {
         const initConnection = async () => {
             if (connection) return;
@@ -39,6 +43,12 @@ function Comments({ sx, reviewId }) {
                     }
                     return prevState;
                 });
+            });
+
+            newConnection.on("update-comment-rate", (comment) => {
+                setComments(prevState => 
+                    prevState.map(prevComment => prevComment.id === comment.id ? comment : prevComment)
+                );
             });
     
             newConnection.on("init-comments", (comments) => {
@@ -80,7 +90,11 @@ function Comments({ sx, reviewId }) {
                 comments.length > 0 ? (
                     <Stack spacing={2}>
                         {comments.map((comment) => 
-                            <Comment model={comment} key={comment.id} />
+                            <Comment 
+                                model={comment}
+                                onRate={onRateComment}
+                                key={comment.id}
+                            />
                         )}
                     </Stack>
                 ) : (

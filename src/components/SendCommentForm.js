@@ -40,6 +40,7 @@ function SendCommentForm({ sendCommentHandler }) {
                     label={t("Write your comment")}
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && sendComment()}
                 />
                 <LoadingButton
                     loading={isCommentButtonLoading}
