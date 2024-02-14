@@ -379,7 +379,13 @@ export const getCurrentUserCommentRate = (commentId, onSuccess, onFinally) => {
 
 const defaultErrorHandler = (error) => {
     if (error.name === "AxiosError") {
-        console.error("Server connection error");
+        if (error.response.status === 404)
+            console.error("Server connection error");
+        
+        if (error.response.status === 401)
+            console.log("Unauthorized");
+    } else {
+        console.error(error);
     }
 };
 
