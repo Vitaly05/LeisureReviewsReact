@@ -69,6 +69,14 @@ export const checkAccessToCreateReview = (authorId, onSuccess, onError) => {
     }).catch(onError);
 };
 
+export const checkAccessToEditReview = (reviewId, onSuccess, onError) => {
+    api.get(`account/check-edit-review-access/${reviewId}`).then(response => {
+        if (response.status === 200) {
+            onSuccess();
+        }
+    }).catch(onError);
+};
+
 export const checkAccessToLikeReview = (reviewId, onSuccess) => {
     api.get(`reviews/can-like/${reviewId}`).then(response => {
         if (response.status === 200) {

@@ -55,7 +55,8 @@ function SortPanel({ sortTarget, activeSortTarget, activeSortType, onClick }) {
             p: 1,
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
+            minWidth: 200
         }}
         >
             <IconButton 

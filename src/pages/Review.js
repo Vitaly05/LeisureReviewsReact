@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
-import { checkAccessToLikeReview, getLeisureInfo, getRate, getRelatedReviews, getReview, getUserInfoById, likeReview, rateLeisure } from "../api";
+import { checkAccessToEditReview, checkAccessToLikeReview, getLeisureInfo, getRate, getRelatedReviews, getReview, getUserInfoById, likeReview, rateLeisure } from "../api";
 import { LeisureGroupsNames } from "../data/LeisureGroups";
-import { Alert, Box, Chip, CircularProgress, Container, Paper, Rating, Snackbar, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, Chip, CircularProgress, Container, Paper, Rating, Snackbar, Stack, Typography } from "@mui/material";
 import IconWithText from "../components/IconWithText";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PersonIcon from "@mui/icons-material/Person";
@@ -16,6 +16,7 @@ import { LoadingButton } from "@mui/lab";
 import { useTranslation } from "react-i18next";
 import Comments from "../components/Comments";
 import BasicTooltip from "../components/BasicTooltip";
+import EditIcon from "@mui/icons-material/Edit";
 
 function Review() {
     const { t } = useTranslation();
@@ -48,6 +49,21 @@ function Review() {
     const [signInAlertOpen, setSignInAlertOpen] = useState(false);
 
     const [userRating, setUserRating] = useState(0);
+
+    const [canEditReview, setCanEditReview] = useState(false);
+
+
+    useEffect(() => {
+        if (isAuthenticated && reviewId) {
+            checkAccessToEditReview(reviewId, () => {
+                setCanEditReview(true);
+            }, () => {
+                setCanEditReview(false);
+            });
+        } else {
+            setCanEditReview(false);
+        }
+    }, [isAuthenticated]);
 
     const likeButtonClickHandler = () => {
         setIsLikeButtonLoading(true);
@@ -133,23 +149,43 @@ function Review() {
                     >
                         <Box sx={{
                             display: "flex",
-                            alignItems: "center",
+                            flexDirection: {
+                                xs: "column-reverse",
+                                sm: "row"
+                            },
                             gap: 3
                         }}
                         >
-                            <Chip 
-                                label={LeisureGroupsNames[reviewInfo.group]}
-                                size="small"
-                                color="secondary"
-                            />
-                            <Typography>
-                                {new Date(reviewInfo.createTime).toLocaleDateString()}
-                            </Typography>
-                            <IconWithText
-                                text={reviewInfo.likesCount}
-                                icon={<FavoriteBorderIcon />}
-                                title={t("Review likes count")}
-                            />
+                            <Box sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 3
+                            }}
+                            >
+                                <Chip 
+                                    label={LeisureGroupsNames[reviewInfo.group]}
+                                    size="small"
+                                    color="secondary"
+                                />
+                                <Typography>
+                                    {new Date(reviewInfo.createTime).toLocaleDateString()}
+                                </Typography>
+                                <IconWithText
+                                    text={reviewInfo.likesCount}
+                                    icon={<FavoriteBorderIcon />}
+                                    title={t("Review likes count")}
+                                />
+                            </Box>
+                            {canEditReview &&
+                                <Button 
+                                    variant="contained" 
+                                    onClick={() => window.location.href = `/review/edit/${reviewId}`}
+                                    sx={{ ml: "auto" }}
+                                    startIcon={<EditIcon />}
+                                >
+                                    {t("Edit")}
+                                </Button>
+                            }
                         </Box>
                         <Box sx={{
                             display: "flex",
