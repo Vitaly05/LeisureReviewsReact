@@ -378,7 +378,7 @@ function EditReview() {
                 onClose={closeSuccessDialog} 
                 open={successDialogOpen}
                 fullWidth
-                maxWidth="sm"
+                maxWidth="md"
             >
                 <DialogTitle>{t("The review has been successfully saved!")}</DialogTitle>
                 <DialogActions sx={{
@@ -387,7 +387,7 @@ function EditReview() {
                         xs: "column",
                         sm: "row"
                     },
-                    gap: 2,
+                    gap: 1,
                     alignItems: "stretch"
                 }}
                 >
@@ -402,6 +402,7 @@ function EditReview() {
                     >
                         {t("Continue editing")}
                     </Button>
+                    <Button onClick={() => window.location.href = `/review/${reviewInfo.id}`} variant="contained">{t("View review")}</Button>
                     <Button onClick={() => window.location.href = "/"} variant="contained">{t("Go to home")}</Button>
                     <Button onClick={toProfileClickHandler} variant="contained">{t("Back to profile")}</Button>
                     
