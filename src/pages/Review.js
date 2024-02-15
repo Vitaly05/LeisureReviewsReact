@@ -73,6 +73,10 @@ function Review() {
                 ...prevState,
                 likesCount: prevState.likesCount + 1
             }));
+            setAuthorInfo(prevState => ({
+                ...prevState,
+                likesCount: prevState.likesCount + 1
+            }));
             setCanLike(false);
             setLikeSuccessAlertOpen(true);
         }, () => {
