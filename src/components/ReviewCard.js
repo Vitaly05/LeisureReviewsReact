@@ -66,7 +66,7 @@ function ReviewCard({ reviewCardModel, canEdit, onDelete }) {
                 }}
             >
                 <Chip 
-                    label={LeisureGroupsNames[reviewCardModel.group]} 
+                    label={t(LeisureGroupsNames[reviewCardModel.group])} 
                     color="secondary"
                     size="small"
                     sx={{

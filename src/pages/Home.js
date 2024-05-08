@@ -7,12 +7,14 @@ import ReviewCardsList from "../components/ReviewCardsList";
 import TagsCloud from "../components/TagsCloud";
 import { useTranslation } from "react-i18next";
 import TagsFilteringDialog from "../components/TagsFilteringDialog";
+import GroupFilterSelector from "../components/GroupFilterSelector";
 
 function Home() {
     const { t } = useTranslation();
 
     const [pagesCount, setPagesCount] = useState(0);
     const [sortTarget, setSortTarget] = useState(SortTarget.date);
+    const [leisureGroup, setLeisureGroup] = useState(0);
     const [page, setPage] = useState(1);
     const [tags, setTags] = useState([]);
 
@@ -26,11 +28,18 @@ function Home() {
 
     const applyTagsFilteringHandler = (tags) => {
         setIsTagsFilteringOpen(false);
-        getReviewPagesCountByTags(tags, (count) => {
-            
+        getReviewPagesCountByTags(tags, leisureGroup, (count) => {
             setPagesCount(count);
             setPage(1);
             setTags(tags);
+        });
+    };
+
+    const getReviews = () => {
+        setIsReviewCardsLoading(true);
+        getReviewsPageByTags(page, sortTarget, SortType.descending, tags, leisureGroup, (cards) => {
+            setReviewCards(cards);
+            setIsReviewCardsLoading(false);
         });
     };
 
@@ -39,11 +48,17 @@ function Home() {
     }, [tags]);
 
     useEffect(() => {
-        setIsReviewCardsLoading(true);
-        getReviewsPageByTags(page, sortTarget, SortType.descending, tags, (cards) => {
-            setReviewCards(cards);
-            setIsReviewCardsLoading(false);
+        getReviewPagesCountByTags(tags, leisureGroup, (count) => {
+            setPagesCount(count);
+            if (page === 1) {
+                getReviews();
+            }
+            setPage(1);
         });
+    }, [leisureGroup, sortTarget]);
+
+    useEffect(() => {
+        getReviews();
     }, [page, sortTarget, tags]);
 
     useEffect(() => {
@@ -85,13 +100,15 @@ function Home() {
                         gap: 2
                     }}
                     >
-                        <Button
-                            variant="text"
-                            size="medium"
-                            onClick={() => setIsTagsCloudOpen(true)}
-                        >
-                            {t("Tags Cloud")}
-                        </Button>
+                        <Box sx={{ textWrap: "nowrap" }}>
+                            <Button
+                                variant="text"
+                                size="medium"
+                                onClick={() => setIsTagsCloudOpen(true)}
+                            >
+                                {t("Tags Cloud")}
+                            </Button>
+                        </Box>
                         <Badge badgeContent={tagFiltersCount} color="secondary">
                             <Button
                                 variant="text"
@@ -101,6 +118,10 @@ function Home() {
                                 {t("Tags filtering")}
                             </Button>
                         </Badge>
+                        <GroupFilterSelector
+                            value={leisureGroup}
+                            onChange={val => setLeisureGroup(val)}
+                        />
                     </Box>
                     <Box
                         sx={{

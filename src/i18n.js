@@ -121,7 +121,8 @@ const resources = {
             "Back to profile": "Профиль",
             "Like comment": "Поставить лайк комментарию",
             "Dislike comment": "Поставить дизлайк комментарию",
-            "Language": "Язык"
+            "Language": "Язык",
+            "All": "Все"
         }
     },
     be: {
@@ -236,7 +237,8 @@ const resources = {
             "Back to profile": "Профіль",
             "Like comment": "Паставіць лайк каментарыю",
             "Dislike comment": "Паставіць дыслайк каментарыю",
-            "Language": "Мова"
+            "Language": "Мова",
+            "All": "Усе"
         }
     }
 };

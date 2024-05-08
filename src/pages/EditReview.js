@@ -259,7 +259,7 @@ function EditReview() {
                                                     </MenuItem>
                                                     {LeisureGroups.map(group => 
                                                         <MenuItem key={group.id} value={group.id}>
-                                                            {group.name}
+                                                            {t(group.name)}
                                                         </MenuItem>
                                                     )}
                                                 </Select>

@@ -8,5 +8,6 @@
         "reduxjs",
         "signalr",
         "tagcloud"
-    ]
+    ],
+    "editor.tabSize": 4,
 }

@@ -151,8 +151,8 @@ export const googleSignUp = (username, credential, onSuccess, onError, onFinally
     }).finally(onFinally);
 };
 
-export const getReviewsPage = (page, sortTarget, sortType, onSuccess) => {
-    api.get(`reviews/get-page/${page}/${sortTarget}/${sortType}`)
+export const getReviewsPage = (page, sortTarget, sortType, leisureGroup, onSuccess) => {
+    api.get(`reviews/get-page/${page}/${sortTarget}/${sortType}${leisureGroup && `?leisureGroup=${leisureGroup}`}`)
         .then(response => {
             if (response.status === 200) {
                 onSuccess(response.data);
@@ -169,11 +169,11 @@ export const getUserReviews = (username, page, sortTarget, sortType, onSuccess) 
         }).catch(defaultErrorHandler);
 };
 
-export const getReviewsPageByTags = (page, sortTarget, sortType, tags, onSuccess) => {
+export const getReviewsPageByTags = (page, sortTarget, sortType, tags, leisureGroup, onSuccess) => {
     if (tags.length === 0) {
-        getReviewsPage(page, sortTarget, sortType, onSuccess);
+        getReviewsPage(page, sortTarget, sortType, leisureGroup, onSuccess);
     } else {
-        api.get(`reviews/get-tags-page/${page}/${sortTarget}/${sortType}?tags=${tags.join("&tags=")}`)
+        api.get(`reviews/get-tags-page/${page}/${sortTarget}/${sortType}?tags=${tags.join("&tags=")}${leisureGroup ? `&leisureGroup=${leisureGroup}` : ""}`)
             .then(response => {
                 if (response.status === 200) {
                     onSuccess(response.data);
@@ -200,17 +200,21 @@ export const getUserReviewPagesCount = (username, onSuccess) => {
         }).catch(defaultErrorHandler);
 };
 
-export const getReviewPagesCountByTags = (tags, onSuccess) => {
-    if (tags.length === 0) {
-        getReviewPagesCount(onSuccess);
-    } else {
-        api.get(`reviews/get-tags-pages-count?tags=${tags.join("&tags=")}`)
-            .then(response => {
-                if (response.status === 200) {
-                    onSuccess(response.data);
-                }
-            }).catch(defaultErrorHandler);
-    }
+export const getReviewPagesCountByTags = (tags, leisureGroup, onSuccess) => {
+    const params = [
+        tags.length > 0 ? `tags=${tags.join("&tags=")}` : null,
+        `leisureGroup=${leisureGroup}`
+    ];
+    const urlString = [
+        "reviews/get-tags-pages-count",
+        params.filter(p => p !== null).join("&")
+    ].join("?");
+    api.get(urlString)
+        .then(response => {
+            if (response.status === 200) {
+                onSuccess(response.data);
+            }
+        }).catch(defaultErrorHandler);
 };
 
 export const getLeisureInfo = (leisureId, onSuccess) => {
