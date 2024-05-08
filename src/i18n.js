@@ -122,7 +122,8 @@ const resources = {
             "Like comment": "Поставить лайк комментарию",
             "Dislike comment": "Поставить дизлайк комментарию",
             "Language": "Язык",
-            "All": "Все"
+            "All": "Все",
+            "Additional Info": "Дополнительная информация"
         }
     },
     be: {
@@ -238,7 +239,8 @@ const resources = {
             "Like comment": "Паставіць лайк каментарыю",
             "Dislike comment": "Паставіць дыслайк каментарыю",
             "Language": "Мова",
-            "All": "Усе"
+            "All": "Усе",
+            "Additional Info": "Дадатковая інфармацыя"
         }
     }
 };
