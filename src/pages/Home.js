@@ -95,9 +95,16 @@ function Home() {
                 >
                     <Box sx={{
                         display: "flex",
+                        flexDirection: {
+                            xs: "column",
+                            sm: "row"
+                        },
                         alignItems: "center",
                         justifyContent: "center",
-                        gap: 2
+                        gap: {
+                            xs: 1,
+                            sm: 2
+                        }
                     }}
                     >
                         <Box sx={{ textWrap: "nowrap" }}>
