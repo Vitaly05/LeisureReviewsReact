@@ -167,7 +167,7 @@ function Review() {
                             }}
                             >
                                 <Chip 
-                                    label={LeisureGroupsNames[reviewInfo.group]}
+                                    label={t(LeisureGroupsNames[reviewInfo.group])}
                                     size="small"
                                     color="secondary"
                                 />
